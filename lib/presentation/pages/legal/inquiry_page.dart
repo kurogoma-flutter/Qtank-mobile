@@ -38,12 +38,11 @@ class InquiryPage extends ConsumerWidget {
           : SingleChildScrollView(
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                padding: const EdgeInsets.all(28),
+                padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(height: 50),
                     const Text('お問合せ種別', style: QTankTextStyle.titleBlack),
                     const SizedBox(height: 20),
                     DropdownButton(
@@ -106,7 +105,7 @@ class InquiryPage extends ConsumerWidget {
                         viewModel.setInquiryContent(value);
                       },
                     ),
-                    const SizedBox(height: 80),
+                    const SizedBox(height: 40),
                     Align(
                       alignment: Alignment.center,
                       child: OutlinedButton(
@@ -163,7 +162,7 @@ class InquiryPage extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 30),
                     Align(
                       alignment: Alignment.center,
                       child: TextButton(
