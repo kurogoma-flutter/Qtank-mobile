@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import '../../../constants/emoji_data.dart';
 import '../../../presentation/style/style.dart';
 import '../../style/color.dart';
@@ -78,7 +79,7 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        print('新しいルーム追加処理');
+                        logger.i('新しいルーム追加処理');
                       },
                     ),
                     GestureDetector(
@@ -101,7 +102,7 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                         ),
                       ),
                       onTap: () {
-                        print('ジャンルを管理');
+                        logger.i('ジャンルを管理');
                       },
                     ),
                     GestureDetector(

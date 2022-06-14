@@ -54,7 +54,7 @@ class WorkspacePageViewModel extends ChangeNotifier {
     try {
       bool beforeState = isConnecting;
       var connectivityResult = await Connectivity().checkConnectivity();
-      print(connectivityResult);
+      logger.i(connectivityResult);
       if (connectivityResult == ConnectivityResult.none) {
         isConnecting = false;
       } else {

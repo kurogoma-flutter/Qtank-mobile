@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 
 import '../../../style/style.dart';
@@ -41,7 +42,7 @@ class UserProfilePage extends StatelessWidget {
             const _TitleLabelWithText(label: '最終更新', text: '2022/02/02'),
             ElevatedButton(
               onPressed: () {
-                print('プロフィール編集');
+                logger.i('プロフィール編集');
               },
               style: ElevatedButton.styleFrom(
                 primary: QTankColor.orange,
@@ -78,7 +79,7 @@ class UserProfilePage extends StatelessWidget {
                         },
                       );
                       if (dialogResult == true) {
-                        print('サインアウト処理');
+                        logger.i('サインアウト処理');
                       }
                     },
                     child: const Text(
