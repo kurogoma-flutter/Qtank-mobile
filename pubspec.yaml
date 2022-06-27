@@ -1,0 +1,44 @@
+name: qtank_mobile
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.3 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  flutter_launcher_icons:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+  flutter_native_splash:
+  
+flutter_icons:
+  android: false
+  ios: true
+  image_path: "assets/tank-solo.png"
+
+
+flutter:
+
+  uses-material-design: true
+  assets:
+    - assets/tank-solo.png
+    - assets/tank-only.png
+    - assets/tank-wide.png
+    - assets/tank-only-removebg.png
+
+flutter_native_splash:
+  image: assets/tank-only-removebg.png
+  color: "ffffff"
+  
+  web: false
