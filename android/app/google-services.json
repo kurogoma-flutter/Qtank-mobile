@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "593075300553",
+    "project_id": "q-tank-app",
+    "storage_bucket": "q-tank-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593075300553:android:0781fd5172651437e10518",
+        "android_client_info": {
+          "package_name": "com.example.qtank_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593075300553-dsqcqh312fs1ocrid1s5176mcp9snbe0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcjTmYVIQG1-15YfWHlDoljoceyQZX4XI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593075300553-dsqcqh312fs1ocrid1s5176mcp9snbe0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
