@@ -14,6 +14,18 @@ class QTankTextStyle {
     color: QTankColor.white,
   );
 
+  static const TextStyle miniTitleBlack = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: QTankColor.black,
+  );
+
+  static const TextStyle alertTextBold = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: QTankColor.red,
+  );
+
   static const TextStyle subtitle = TextStyle(
     fontSize: 14,
     color: QTankColor.white,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
+import 'package:go_router/go_router.dart';
 
 class QTankListViewPage extends StatelessWidget {
   const QTankListViewPage({Key? key}) : super(key: key);
@@ -10,7 +11,20 @@ class QTankListViewPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
-        title: const Text('ワークスペース'),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('ワークスペース'),
+            SizedBox(
+              width: 40,
+              height: 40,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.asset('assets/dammy_icon_3.png'),
+              ),
+            ),
+          ],
+        ),
         backgroundColor: QTankColor.grey,
         elevation: 0,
         centerTitle: false,
@@ -22,13 +36,17 @@ class QTankListViewPage extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 10,
+                itemCount: 4,
                 itemBuilder: (BuildContext context, int index) {
-                  return const _QTankListItem();
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    child: const _QTankListItem(),
+                    onTap: () => context.push('/workspace/XXXXXX'),
+                  );
                 },
               ),
             ),
-            const Divider(color: QTankColor.white, height: 1),
+            const Divider(color: QTankColor.greyWhite, height: 0.5),
             const _QTankActionMenuList(),
           ],
         ),
@@ -120,13 +138,124 @@ class _QTankListItemInfo extends StatelessWidget {
 class _QTankListItemAction extends StatelessWidget {
   const _QTankListItemAction({Key? key}) : super(key: key);
 
+  void displayBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return const _BottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () {},
+      onPressed: () => displayBottomSheet(context),
       icon: const Icon(
         Icons.more_vert_rounded,
         color: QTankColor.white,
+      ),
+    );
+  }
+}
+
+class _BottomSheet extends StatelessWidget {
+  const _BottomSheet({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 150,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 35,
+                padding: const EdgeInsets.only(left: 12),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: QTankColor.grey, width: 1),
+                        color: QTankColor.white,
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image.asset('assets/tank-only.png'),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    const Text('ワークスペースネーム',
+                        style: QTankTextStyle.miniTitleBlack),
+                  ],
+                ),
+              ),
+              onTap: () {
+                print('ワークスペースの処理');
+              },
+            ),
+            const Divider(color: QTankColor.greyWhite, height: 0.5),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 35,
+                padding: const EdgeInsets.only(left: 12),
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.person_add_alt,
+                      color: QTankColor.black,
+                    ),
+                    SizedBox(width: 10),
+                    Text('メンバーを招待する', style: QTankTextStyle.miniTitleBlack),
+                  ],
+                ),
+              ),
+              onTap: () {
+                print('メンバー招待処理');
+              },
+            ),
+            const Divider(color: QTankColor.greyWhite, height: 0.5),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 35,
+                padding: const EdgeInsets.only(left: 12),
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.logout_outlined,
+                      color: QTankColor.red,
+                    ),
+                    SizedBox(width: 10),
+                    Text('ワークスペースから退出する', style: QTankTextStyle.alertTextBold),
+                  ],
+                ),
+              ),
+              onTap: () {
+                print('退出処理');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -154,7 +283,7 @@ class _QTankActionMenuList extends StatelessWidget {
           ),
           _QTankActionMenuItem(
             icon: Icons.question_mark_rounded,
-            title: 'QAヘルプ',
+            title: 'QAヘルプ・お問合せ',
           ),
           SizedBox(height: 10),
         ],
