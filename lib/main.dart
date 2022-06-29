@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:qtank_mobile/presentation/pages/qtank/qtank_list_page.dart';
 
 import 'firebase_options.dart';
 
@@ -37,9 +38,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-      child: Image.asset('assets/tank-solo.png'),
-    ));
+    return const QTankListViewPage();
   }
 }
