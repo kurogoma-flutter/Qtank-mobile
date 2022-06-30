@@ -15,13 +15,17 @@ class QTankListViewPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text('ワークスペース'),
-            SizedBox(
-              width: 40,
-              height: 40,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.asset('assets/dammy_icon_3.png'),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset('assets/dammy_icon_3.png'),
+                ),
               ),
+              onTap: () => context.push('/user_profile'),
             ),
           ],
         ),
@@ -103,16 +107,30 @@ class _QTankListItemImage extends StatelessWidget {
         const Positioned(
           top: -1,
           right: -1,
-          child: CircleAvatar(
-            backgroundColor: QTankColor.black,
-            maxRadius: 9,
-            child: CircleAvatar(
-              backgroundColor: QTankColor.orange,
-              maxRadius: 6,
-            ),
-          ),
+          child: _NotReadIcon(),
         ),
       ],
+    );
+  }
+}
+
+class _NotReadIcon extends StatelessWidget {
+  const _NotReadIcon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Visibility(
+      visible: true,
+      child: CircleAvatar(
+        backgroundColor: QTankColor.black,
+        maxRadius: 9,
+        child: CircleAvatar(
+          backgroundColor: QTankColor.orange,
+          maxRadius: 6,
+        ),
+      ),
     );
   }
 }
@@ -170,7 +188,7 @@ class _BottomSheet extends StatelessWidget {
       height: 150,
       child: Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: QTankColor.white,
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(20.0),
             topLeft: Radius.circular(20.0),
@@ -271,21 +289,39 @@ class _QTankActionMenuList extends StatelessWidget {
       height: 180,
       width: MediaQuery.of(context).size.width,
       child: Column(
-        children: const <Widget>[
-          SizedBox(height: 10),
-          _QTankActionMenuItem(
-            icon: Icons.fiber_new,
-            title: 'ワークスペースを新規追加',
+        children: <Widget>[
+          const SizedBox(height: 10),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            child: const _QTankActionMenuItem(
+              icon: Icons.fiber_new,
+              title: 'ワークスペースを新規追加',
+            ),
+            onTap: () {
+              context.go('/create_workspace');
+            },
           ),
-          _QTankActionMenuItem(
-            icon: Icons.settings_rounded,
-            title: 'ワークスペースの設定',
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            child: const _QTankActionMenuItem(
+              icon: Icons.settings_rounded,
+              title: 'アプリの設定・規約',
+            ),
+            onTap: () {
+              context.push('/setting_app_and_legal');
+            },
           ),
-          _QTankActionMenuItem(
-            icon: Icons.question_mark_rounded,
-            title: 'QAヘルプ・お問合せ',
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            child: const _QTankActionMenuItem(
+              icon: Icons.question_mark_rounded,
+              title: 'QAヘルプ・お問合せ',
+            ),
+            onTap: () {
+              print('QAヘルプ・お問合せ画面');
+            },
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
         ],
       ),
     );

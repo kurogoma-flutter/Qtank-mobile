@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       routeInformationProvider: router.routeInformationProvider,
       routeInformationParser: router.routeInformationParser,
       routerDelegate: router.routerDelegate,
+      debugShowCheckedModeBanner: false,
       title: 'QTank for Mobile',
       theme: ThemeData(
         primaryColor: QTankColor.black,

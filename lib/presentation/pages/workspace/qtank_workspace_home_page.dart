@@ -35,14 +35,14 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
             const Icon(Icons.settings, color: QTankColor.white),
           ],
         ),
-        backgroundColor: QTankColor.black,
+        backgroundColor: QTankColor.grey,
         elevation: 0,
         centerTitle: false,
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        color: QTankColor.grey,
+        color: QTankColor.black,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -89,7 +89,7 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                           ),
                           SizedBox(width: 16),
                           Text(
-                            'ジャンルを管理する',
+                            'ジャンル・ルームを管理する',
                             style: QTankTextStyle.subtitle,
                           ),
                         ],
@@ -97,6 +97,29 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                     ),
                     onTap: () {
                       print('ジャンルを管理');
+                    },
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 40,
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.groups_rounded,
+                            color: QTankColor.greyWhite,
+                          ),
+                          SizedBox(width: 16),
+                          Text(
+                            'メンバーを管理する',
+                            style: QTankTextStyle.subtitle,
+                          ),
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      print('メンバーを管理する');
                     },
                   ),
                   const Padding(
