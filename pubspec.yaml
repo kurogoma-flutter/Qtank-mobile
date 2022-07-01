@@ -15,14 +15,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_launcher_icons:
   firebase_core: ^1.18.0
+  cloud_firestore:
+  go_router:
+  url_launcher:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
   flutter_native_splash:
-  cloud_firestore:
+  
   
 flutter_icons:
   android: false
@@ -38,6 +40,10 @@ flutter:
     - assets/tank-only.png
     - assets/tank-wide.png
     - assets/tank-only-removebg.png
+    - assets/dammy_icon_1.png
+    - assets/dammy_icon_2.png
+    - assets/dammy_icon_3.png
+    - assets/dammy_icon_4.png
 
 flutter_native_splash:
   image: assets/tank-only-removebg.png
