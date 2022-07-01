@@ -3,58 +3,58 @@ import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 import 'package:go_router/go_router.dart';
 
+import '../common_components/dialog.dart';
+
 class QTankListViewPage extends StatelessWidget {
   const QTankListViewPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: QTankColor.black,
-        appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('ワークスペース'),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                child: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset('assets/dammy_icon_3.png'),
-                  ),
+    return Scaffold(
+      backgroundColor: QTankColor.black,
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text('ワークスペース'),
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              child: SizedBox(
+                width: 40,
+                height: 40,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.asset('assets/dammy_icon_3.png'),
                 ),
-                onTap: () => context.push('/user_profile'),
               ),
-            ],
-          ),
-          backgroundColor: QTankColor.grey,
-          elevation: 0,
-          centerTitle: false,
+              onTap: () => context.push('/user_profile'),
+            ),
+          ],
         ),
-        body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemCount: 4,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      child: const _QTankListItem(),
-                      onTap: () => context.push('/workspace/XXXXXX'),
-                    );
-                  },
-                ),
+        backgroundColor: QTankColor.grey,
+        elevation: 0,
+        centerTitle: false,
+      ),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: 4,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    child: const _QTankListItem(),
+                    onTap: () => context.push('/workspace/XXXXXX'),
+                  );
+                },
               ),
-              const Divider(color: QTankColor.greyWhite, height: 0.5),
-              const _QTankActionMenuList(),
-            ],
-          ),
+            ),
+            const Divider(color: QTankColor.greyWhite, height: 0.5),
+            const _QTankActionMenuList(),
+          ],
         ),
       ),
     );
@@ -187,7 +187,7 @@ class _BottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150,
+      height: 180,
       child: Container(
         decoration: const BoxDecoration(
           color: QTankColor.white,
@@ -199,81 +199,102 @@ class _BottomSheet extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 35,
-                padding: const EdgeInsets.only(left: 12),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(color: QTankColor.grey, width: 1),
-                        color: QTankColor.white,
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(color: QTankColor.grey, width: 1),
+                          color: QTankColor.white,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: Image.asset('assets/tank-only.png'),
+                        ),
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: Image.asset('assets/tank-only.png'),
+                      const SizedBox(width: 10),
+                      const Text('ワークスペースの設定をする',
+                          style: QTankTextStyle.miniTitleBlack),
+                    ],
+                  ),
+                ),
+                onTap: () {
+                  context.push('/workspace_setting');
+                },
+              ),
+            ),
+            const Divider(color: QTankColor.greyWhite, height: 0.2),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.engineering_rounded,
+                        color: QTankColor.black,
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    const Text('ワークスペースネーム',
-                        style: QTankTextStyle.miniTitleBlack),
-                  ],
+                      SizedBox(width: 10),
+                      Text('メンバーの設定をする', style: QTankTextStyle.miniTitleBlack),
+                    ],
+                  ),
                 ),
+                onTap: () {
+                  context.push('/workspace_member_list');
+                },
               ),
-              onTap: () {
-                print('ワークスペースの処理');
-              },
             ),
-            const Divider(color: QTankColor.greyWhite, height: 0.5),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 35,
-                padding: const EdgeInsets.only(left: 12),
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.person_add_alt,
-                      color: QTankColor.black,
-                    ),
-                    SizedBox(width: 10),
-                    Text('メンバーを招待する', style: QTankTextStyle.miniTitleBlack),
-                  ],
+            const Divider(color: QTankColor.greyWhite, height: 0.2),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.logout_outlined,
+                        color: QTankColor.red,
+                      ),
+                      SizedBox(width: 10),
+                      Text('ワークスペースから退出する',
+                          style: QTankTextStyle.alertTextBold),
+                    ],
+                  ),
                 ),
+                onTap: () async {
+                  var dialogResult = await showDialog<bool>(
+                    context: context,
+                    builder: (_) {
+                      return const ConfirmationDialog(
+                        dialogMessage: 'ワークスペースから退出してもよろしいですか？',
+                      );
+                    },
+                  );
+                  if (dialogResult == true) {
+                    print('退出処理');
+                  }
+                },
               ),
-              onTap: () {
-                print('メンバー招待処理');
-              },
             ),
-            const Divider(color: QTankColor.greyWhite, height: 0.5),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 35,
-                padding: const EdgeInsets.only(left: 12),
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.logout_outlined,
-                      color: QTankColor.red,
-                    ),
-                    SizedBox(width: 10),
-                    Text('ワークスペースから退出する', style: QTankTextStyle.alertTextBold),
-                  ],
-                ),
-              ),
-              onTap: () {
-                print('退出処理');
-              },
-            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -288,8 +309,9 @@ class _QTankActionMenuList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: QTankColor.black,
-      height: 180,
+      height: 190,
       width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.only(left: 12),
       child: Column(
         children: <Widget>[
           const SizedBox(height: 10),
@@ -320,10 +342,10 @@ class _QTankActionMenuList extends StatelessWidget {
               title: 'QAヘルプ・お問合せ',
             ),
             onTap: () {
-              print('QAヘルプ・お問合せ画面');
+              context.push('/legal/inquiry');
             },
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
         ],
       ),
     );
