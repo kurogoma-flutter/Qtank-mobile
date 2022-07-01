@@ -8,51 +8,53 @@ class QTankListViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: QTankColor.black,
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('ワークスペース'),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset('assets/dammy_icon_3.png'),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: QTankColor.black,
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('ワークスペース'),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset('assets/dammy_icon_3.png'),
+                  ),
+                ),
+                onTap: () => context.push('/user_profile'),
+              ),
+            ],
+          ),
+          backgroundColor: QTankColor.grey,
+          elevation: 0,
+          centerTitle: false,
+        ),
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 4,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      child: const _QTankListItem(),
+                      onTap: () => context.push('/workspace/XXXXXX'),
+                    );
+                  },
                 ),
               ),
-              onTap: () => context.push('/user_profile'),
-            ),
-          ],
-        ),
-        backgroundColor: QTankColor.grey,
-        elevation: 0,
-        centerTitle: false,
-      ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: const _QTankListItem(),
-                    onTap: () => context.push('/workspace/XXXXXX'),
-                  );
-                },
-              ),
-            ),
-            const Divider(color: QTankColor.greyWhite, height: 0.5),
-            const _QTankActionMenuList(),
-          ],
+              const Divider(color: QTankColor.greyWhite, height: 0.5),
+              const _QTankActionMenuList(),
+            ],
+          ),
         ),
       ),
     );

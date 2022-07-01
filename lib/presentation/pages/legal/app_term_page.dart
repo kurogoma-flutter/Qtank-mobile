@@ -7,19 +7,21 @@ class AppTermPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('アプリ利用規約'),
-        backgroundColor: QTankColor.grey,
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: QTankColor.white,
-        child: const Center(
-          child: Text('アプリ利用規約'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('アプリ利用規約'),
+          backgroundColor: QTankColor.grey,
+          centerTitle: true,
+          elevation: 0,
+        ),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: QTankColor.white,
+          child: const Center(
+            child: Text('アプリ利用規約'),
+          ),
         ),
       ),
     );

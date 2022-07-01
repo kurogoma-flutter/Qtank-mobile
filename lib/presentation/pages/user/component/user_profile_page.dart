@@ -8,75 +8,77 @@ class UserProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('ユーザープロフィール'),
-        backgroundColor: QTankColor.grey,
-        elevation: 0,
-        centerTitle: false,
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: QTankColor.black,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CircleAvatar(
-              radius: 48,
-              backgroundImage: AssetImage('assets/dammy_icon_3.png'),
-            ),
-            const Text(
-              'ユーザー名',
-              style: QTankTextStyle.largeTitle,
-            ),
-            const _TitleLabelWithBoldText(label: 'ID', text: '@VdPA53GW4g6BW'),
-            const _TitleLabelWithBoldText(
-                label: 'Email', text: 'dammy@example.com'),
-            const _TitleLabelWithBoldText(label: '所属', text: 'ソリューション事業部 第二課'),
-            const _TitleLabelWithBoldText(label: '役職', text: '人事部長補佐'),
-            const SizedBox(),
-            const _TitleLabelWithText(label: '最終更新', text: '2022/02/02'),
-            ElevatedButton(
-              onPressed: () {
-                print('プロフィール編集');
-              },
-              style: ElevatedButton.styleFrom(
-                primary: QTankColor.orange,
-                onPrimary: QTankColor.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('ユーザープロフィール'),
+          backgroundColor: QTankColor.grey,
+          elevation: 0,
+          centerTitle: false,
+        ),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: QTankColor.black,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CircleAvatar(
+                radius: 48,
+                backgroundImage: AssetImage('assets/dammy_icon_3.png'),
+              ),
+              const Text(
+                'ユーザー名',
+                style: QTankTextStyle.largeTitle,
+              ),
+              const _TitleLabelWithBoldText(label: 'ID', text: '@VdPA53GW4g6BW'),
+              const _TitleLabelWithBoldText(
+                  label: 'Email', text: 'dammy@example.com'),
+              const _TitleLabelWithBoldText(label: '所属', text: 'ソリューション事業部 第二課'),
+              const _TitleLabelWithBoldText(label: '役職', text: '人事部長補佐'),
+              const SizedBox(),
+              const _TitleLabelWithText(label: '最終更新', text: '2022/02/02'),
+              ElevatedButton(
+                onPressed: () {
+                  print('プロフィール編集');
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: QTankColor.orange,
+                  onPrimary: QTankColor.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                  child: Text(
+                    'プロフィール編集',
+                    style: QTankTextStyle.textBoldWithShadow,
+                  ),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                child: Text(
-                  'プロフィール編集',
-                  style: QTankTextStyle.textBoldWithShadow,
+              SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.logout_rounded,
+                      color: QTankColor.red,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        print('サインアウト処理');
+                      },
+                      child: const Text('アプリからサインアウト',
+                          style: QTankTextStyle.alertTextBold),
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.logout_rounded,
-                    color: QTankColor.red,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      print('サインアウト処理');
-                    },
-                    child: const Text('アプリからサインアウト',
-                        style: QTankTextStyle.alertTextBold),
-                  ),
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
