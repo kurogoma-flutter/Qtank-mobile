@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../style/color.dart';
 import '../../style/style.dart';
@@ -103,6 +104,8 @@ class InquiryPage extends StatelessWidget {
                     );
                     if (dialogResult == true) {
                       print('問い合わせ処理');
+                      // ignore: use_build_context_synchronously
+                      context.go('/legal/inquiry/complete');
                     }
                   },
                   style: OutlinedButton.styleFrom(

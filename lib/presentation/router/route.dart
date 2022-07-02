@@ -10,6 +10,7 @@ import 'package:qtank_mobile/presentation/pages/workspace/workspace_member_list.
 import 'package:qtank_mobile/presentation/pages/workspace/workspace_setting_page.dart';
 
 import '../pages/error/simple_error_page.dart';
+import '../pages/legal/inquiry_complete_page.dart';
 import '../pages/workspace/create_workspace_page.dart';
 import '../pages/setting/component/app_setting_page.dart';
 import '../pages/workspace/workspace_list_page.dart';
@@ -69,6 +70,11 @@ final GoRouter router = GoRouter(
       path: '/legal/inquiry',
       builder: (BuildContext context, GoRouterState state) =>
           const InquiryPage(),
+    ),
+    GoRoute(
+      path: '/legal/inquiry/complete',
+      builder: (BuildContext context, GoRouterState state) =>
+          const InquiryCompletePage(),
     ),
     GoRoute(
       path: '/legal/about_app',
