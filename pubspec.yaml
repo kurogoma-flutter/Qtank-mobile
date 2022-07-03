@@ -18,6 +18,7 @@ dependencies:
   cloud_firestore:
   go_router:
   url_launcher:
+  flutter_riverpod:
 
 dev_dependencies:
   flutter_test:
