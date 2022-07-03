@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qtank_mobile/constants/enum.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 import 'package:go_router/go_router.dart';
 
-enum ThemeMode {
-  light,
-  dark,
-  system,
-}
+import '../../../../data/view_model/setting_page_view_model.dart';
 
-class SettingAppAndLegalPage extends StatelessWidget {
+class SettingAppAndLegalPage extends ConsumerWidget {
   const SettingAppAndLegalPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(settingPageViewModelProvider);
     return Scaffold(
       backgroundColor: QTankColor.white,
       appBar: AppBar(
@@ -36,9 +35,9 @@ class SettingAppAndLegalPage extends StatelessWidget {
                 child: Text('アプリ設定', style: QTankTextStyle.miniTitleBlack),
               ),
               SwitchListTile(
-                value: false,
+                value: viewModel.ableToNoticeAboutNewMessage,
                 onChanged: (value) {
-                  print(value);
+                  viewModel.updateAbleToSendMessage(value);
                 },
                 title: const Text(
                   "新規メッセージの通知",
@@ -46,9 +45,9 @@ class SettingAppAndLegalPage extends StatelessWidget {
                 ),
               ),
               SwitchListTile(
-                value: false,
+                value: viewModel.ableToNoticeAboutNewMember,
                 onChanged: (value) {
-                  print(value);
+                  viewModel.updateAbleToSendMember(value);
                 },
                 title: const Text(
                   "新規メンバー追加の通知",
@@ -65,22 +64,22 @@ class SettingAppAndLegalPage extends StatelessWidget {
                       dropdownColor: QTankColor.white,
                       items: const [
                         DropdownMenuItem(
-                          value: ThemeMode.light,
+                          value: AppThemeMode.light,
                           child: Text('ライトモード'),
                         ),
                         DropdownMenuItem(
-                          value: ThemeMode.dark,
+                          value: AppThemeMode.dark,
                           child: Text('ダークモード'),
                         ),
                         DropdownMenuItem(
-                          value: ThemeMode.system,
+                          value: AppThemeMode.system,
                           child: Text('端末設定に従う'),
                         ),
                       ],
                       onChanged: (value) {
-                        print(value);
+                        viewModel.updateThemeMode(value);
                       },
-                      value: ThemeMode.dark,
+                      value: viewModel.themeMode,
                     ),
                   ],
                 ),
