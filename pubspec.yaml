@@ -19,6 +19,8 @@ dependencies:
   go_router:
   url_launcher:
   flutter_riverpod:
+  logger: ^1.1.0
+  intl: 
 
 dev_dependencies:
   flutter_test:
