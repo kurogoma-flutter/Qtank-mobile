@@ -28,7 +28,7 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              onTap: () => context.pop(),
+              onTap: () => context.go('/'),
             ),
             const SizedBox(width: 12),
             const Text('ワークスペース名', style: QTankTextStyle.title),
