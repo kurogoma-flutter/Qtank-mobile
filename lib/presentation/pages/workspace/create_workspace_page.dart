@@ -1,15 +1,19 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 
 import '../../style/color.dart';
+import '../common_components/dialog.dart';
 
-class CreateWorkSpacePage extends StatelessWidget {
+class CreateWorkSpacePage extends ConsumerWidget {
   const CreateWorkSpacePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(workspacePageViewModelProvider);
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -52,6 +56,9 @@ class CreateWorkSpacePage extends StatelessWidget {
                     maxLines: 1,
                     maxLength: 50,
                     style: QTankTextStyle.miniTitle,
+                    onChanged: (value) {
+                      viewModel.updateWorkspaceName(value);
+                    },
                   ),
                   const SizedBox(height: 16),
                   RichText(
@@ -86,7 +93,6 @@ class CreateWorkSpacePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 50),
                   ElevatedButton(
-                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       primary: QTankColor.orange,
                       onPrimary: QTankColor.black,
@@ -101,6 +107,35 @@ class CreateWorkSpacePage extends StatelessWidget {
                         style: QTankTextStyle.subtitleBlack,
                       ),
                     ),
+                    onPressed: () async {
+                      // 空白の場合はエラーを表示する
+                      if (viewModel.newWorkspaceName.isEmpty) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const ConfirmationDialog(
+                            dialogMessage: 'ワークスペース名を入力してください',
+                          ),
+                        );
+                        return;
+                      }
+
+                      // 確認 => 登録
+                      var dialogResult = await showDialog<bool>(
+                        context: context,
+                        builder: (_) {
+                          return ConfirmationDialog(
+                            dialogMessage:
+                                'ワークスペース「${viewModel.newWorkspaceName}」を作成しますか？',
+                          );
+                        },
+                      );
+                      if (dialogResult == true) {
+                        await viewModel.createNewWorkSpace();
+                        // 作成完了後、ワークスペースのページに遷移
+                        // ignore: use_build_context_synchronously
+                        context.go('/workspace/XXXXXXXXXX');
+                      }
+                    },
                   ),
                   const SizedBox(height: 30),
                   TextButton(

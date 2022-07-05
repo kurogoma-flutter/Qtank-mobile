@@ -9,8 +9,7 @@ import 'package:qtank_mobile/data/utility/logger/logger.dart';
 // 🌎 Project imports:
 import '../utility/logger/logger.dart';
 
-final workspacePageViewModelProvider =
-    ChangeNotifierProvider<WorkspacePageViewModel>(
+final workspacePageViewModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) {
     return WorkspacePageViewModel();
   },
@@ -32,16 +31,17 @@ class WorkspacePageViewModel extends ChangeNotifier {
   Future<void> createNewWorkSpace() async {
     if (newWorkspaceName.isNotEmpty) {
       try {
-        await FirebaseFirestore.instance.collection('workspaces').add({
-          'name': newWorkspaceName,
-          'imageUrl':
-              'https://user-images.githubusercontent.com/67848399/177277341-f0a9d6cc-d844-46d9-baa0-42b7c6b317e1.jpeg',
-          'members': [],
-          'owners': ['XXXXXXXXXX'], // ログイン中のユーザーを格納
-          'createUser': 'XXXXXXXXXX', // 作成者のUID
-          'createdAt': DateTime.now(),
-          'updatedAt': DateTime.now(),
-        });
+        await Future.delayed(const Duration(seconds: 1));
+        // await FirebaseFirestore.instance.collection('workspaces').add({
+        //   'name': newWorkspaceName,
+        //   'imageUrl':
+        //       'https://user-images.githubusercontent.com/67848399/177277341-f0a9d6cc-d844-46d9-baa0-42b7c6b317e1.jpeg',
+        //   'members': [],
+        //   'owners': ['XXXXXXXXXX'], // ログイン中のユーザーを格納
+        //   'createUser': 'XXXXXXXXXX', // 作成者のUID
+        //   'createdAt': DateTime.now(),
+        //   'updatedAt': DateTime.now(),
+        // });
       } on FirebaseException catch (e) {
         logger.w(e);
       }
