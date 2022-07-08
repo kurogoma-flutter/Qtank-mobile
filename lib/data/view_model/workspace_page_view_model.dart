@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -20,6 +21,7 @@ class WorkspacePageViewModel extends ChangeNotifier {
 
   /// 状態を持つ変数
   String newWorkspaceName = '';
+  bool isConnecting = true;
 
   /// stateを更新するメソッド
   // ワークスペース名を更新
@@ -45,6 +47,25 @@ class WorkspacePageViewModel extends ChangeNotifier {
       } on FirebaseException catch (e) {
         logger.w(e);
       }
+    }
+  }
+
+  Future<void> checkConnectionState() async {
+    try {
+      bool beforeState = isConnecting;
+      var connectivityResult = await Connectivity().checkConnectivity();
+      print(connectivityResult);
+      if (connectivityResult == ConnectivityResult.none) {
+        isConnecting = false;
+      } else {
+        isConnecting = true;
+      }
+      // 状態が変わったら通知する
+      if (beforeState != isConnecting) {
+        notifyListeners();
+      }
+    } on Exception catch (e) {
+      logger.wtf(e);
     }
   }
 }

@@ -86,6 +86,11 @@ final GoRouter router = GoRouter(
       builder: (BuildContext context, GoRouterState state) =>
           const SpecificTradeLawPage(),
     ),
+    GoRoute(
+      path: '/no_connection',
+      builder: (BuildContext context, GoRouterState state) =>
+          const SpecificTradeLawPage(),
+    ),
   ],
   initialLocation: '/',
   errorBuilder: (context, state) => const SimpleErrorPage(),

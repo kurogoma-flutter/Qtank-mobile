@@ -21,6 +21,7 @@ dependencies:
   flutter_riverpod:
   logger: ^1.1.0
   intl: 
+  connectivity_plus: ^2.3.5
 
 dev_dependencies:
   flutter_test:

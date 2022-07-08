@@ -1,63 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 import 'package:go_router/go_router.dart';
 
 import '../common_components/dialog.dart';
 
-class QTankListViewPage extends StatelessWidget {
+class QTankListViewPage extends ConsumerWidget {
   const QTankListViewPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: QTankColor.black,
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text('ワークスペース'),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset('assets/dammy_icon_3.png'),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(workspacePageViewModelProvider);
+
+    // 接続状況の判定
+    viewModel.checkConnectionState();
+    if (viewModel.isConnecting) {
+      return Scaffold(
+        backgroundColor: QTankColor.black,
+        appBar: AppBar(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('ワークスペース'),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.asset('assets/dammy_icon_3.png'),
+                  ),
+                ),
+                onTap: () => context.push('/user_profile'),
+              ),
+            ],
+          ),
+          backgroundColor: QTankColor.grey,
+          elevation: 0,
+          centerTitle: false,
+        ),
+        body: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: 4,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      child: const _QTankListItem(),
+                      onTap: () => context.push('/workspace/XXXXXX'),
+                    );
+                  },
                 ),
               ),
-              onTap: () => context.push('/user_profile'),
-            ),
-          ],
+              const Divider(color: QTankColor.greyWhite, height: 0.5),
+              const _QTankActionMenuList(),
+            ],
+          ),
         ),
-        backgroundColor: QTankColor.grey,
-        elevation: 0,
-        centerTitle: false,
-      ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: const _QTankListItem(),
-                    onTap: () => context.push('/workspace/XXXXXX'),
-                  );
-                },
-              ),
-            ),
-            const Divider(color: QTankColor.greyWhite, height: 0.5),
-            const _QTankActionMenuList(),
-          ],
-        ),
-      ),
-    );
+      );
+    } else {
+      return const Center(
+        child: Text('Not Connecting...'),
+      );
+    }
   }
 }
 
