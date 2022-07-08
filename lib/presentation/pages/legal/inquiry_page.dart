@@ -111,6 +111,28 @@ class InquiryPage extends ConsumerWidget {
                       alignment: Alignment.center,
                       child: OutlinedButton(
                         onPressed: () async {
+                          // 種別未選択の場合
+                          if (viewModel.inquiryType == '選択してください') {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const ConfirmationDialog(
+                                dialogMessage: 'お問合せ種別を選択してください',
+                              ),
+                            );
+                            return;
+                          }
+
+                          // 問い合わせ内容未入力の場合
+                          if (viewModel.inquiryContent.isEmpty) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => const ConfirmationDialog(
+                                dialogMessage: 'お問合せ内容を入力してください',
+                              ),
+                            );
+                            return;
+                          }
+
                           var dialogResult = await showDialog<bool>(
                             context: context,
                             builder: (_) {
@@ -134,8 +156,10 @@ class InquiryPage extends ConsumerWidget {
                             backgroundColor: QTankColor.white),
                         child: const Padding(
                           padding: EdgeInsets.all(16),
-                          child: Text('問い合わせ送信',
-                              style: QTankTextStyle.miniTitleBlack),
+                          child: Text(
+                            '問い合わせ送信',
+                            style: QTankTextStyle.miniTitleBlack,
+                          ),
                         ),
                       ),
                     ),
