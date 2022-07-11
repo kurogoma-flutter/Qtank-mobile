@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class RoomModel {
   RoomModel({
     required this.name,
+    required this.genreId,
     required this.roomId,
     required this.workspaceId,
     required this.members,
@@ -14,6 +15,7 @@ class RoomModel {
 
   factory RoomModel.fromMap(Map<String, dynamic> data) => RoomModel(
         name: data['name'],
+        genreId: data['genreId'],
         roomId: data['roomId'],
         workspaceId: data['workspaceId'],
         members: List<String>.from(data['members']),
@@ -24,6 +26,7 @@ class RoomModel {
 
   factory RoomModel.initialData() => RoomModel(
         name: '',
+        genreId: '',
         roomId: '',
         workspaceId: '',
         members: [],
@@ -33,6 +36,7 @@ class RoomModel {
       );
 
   String name;
+  String genreId;
   String roomId;
   String workspaceId;
   List<String> members;
@@ -42,6 +46,7 @@ class RoomModel {
 
   Map<String, dynamic> toMap() => {
         'name': name,
+        'genreId': genreId,
         'roomId': roomId,
         'workspaceId': workspaceId,
         'members': members,
