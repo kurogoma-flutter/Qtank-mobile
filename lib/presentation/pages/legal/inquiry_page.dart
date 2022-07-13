@@ -163,6 +163,19 @@ class InquiryPage extends ConsumerWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(height: 40),
+                    Align(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        onPressed: () {
+                          context.push('/legal/qa_page');
+                        },
+                        child: const Text(
+                          'よくあるQAはこちら',
+                          style: QTankTextStyle.linkText,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

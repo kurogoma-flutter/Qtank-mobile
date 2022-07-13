@@ -87,4 +87,10 @@ class QTankTextStyle {
       )
     ],
   );
+
+  static const TextStyle linkText = TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w300,
+      color: QTankColor.lightBlue,
+      decoration: TextDecoration.underline);
 }
