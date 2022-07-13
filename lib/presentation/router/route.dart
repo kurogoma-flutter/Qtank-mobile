@@ -5,6 +5,7 @@ import 'package:qtank_mobile/presentation/pages/legal/about_this_app_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/app_term_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/inquiry_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/privacy_polict_page.dart';
+import 'package:qtank_mobile/presentation/pages/legal/qa_list_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/specific_trade_law_page.dart';
 import 'package:qtank_mobile/presentation/pages/workspace/workspace_member_list.dart';
 import 'package:qtank_mobile/presentation/pages/workspace/workspace_setting_page.dart';
@@ -85,6 +86,10 @@ final GoRouter router = GoRouter(
       path: '/legal/specific_trade_law',
       builder: (BuildContext context, GoRouterState state) =>
           const SpecificTradeLawPage(),
+    ),
+    GoRoute(
+      path: '/legal/qa_page',
+      builder: (BuildContext context, GoRouterState state) => const QAPage(),
     ),
     GoRoute(
       path: '/no_connection',
