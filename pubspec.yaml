@@ -14,8 +14,8 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   flutter_launcher_icons:
-  firebase_core: ^1.18.0
-  cloud_firestore: ^3.3.0
+  firebase_core: ^1.19.1
+  cloud_firestore: ^3.2.1
   go_router: ^4.1.0
   flutter_riverpod: ^1.0.4
   logger: ^1.1.0
@@ -29,7 +29,7 @@ dev_dependencies:
   flutter_native_splash: ^2.2.4
   
 flutter_icons:
-  android: false
+  android: true
   ios: true
   image_path: "assets/tank-solo.png"
 
