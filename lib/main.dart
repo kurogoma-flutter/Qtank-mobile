@@ -6,13 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/presentation/router/route.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 
-import 'firebase_options.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp();
   GoRouter.setUrlPathStrategy(UrlPathStrategy.path);
   runApp(
     const ProviderScope(

@@ -1,6 +1,6 @@
-# qtank_mobile
+# qtank_mobile_app
 
-A new Flutter project.
+QTank
 
 ## Getting Started
 

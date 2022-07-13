@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.qtank_mobile">
+    package="com.app.q.tank.qtank_mobile_app">
    <application
-        android:label="qtank_mobile"
+        android:label="qtank_mobile_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,22 +1,22 @@
 {
-    // IntelliSense を使用して利用可能な属性を学べます。
-    // 既存の属性の説明をホバーして表示します。
-    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "qtank_mobile",
+            "name": "qtank_mobile_app",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "qtank_mobile (profile mode)",
+            "name": "qtank_mobile_app (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "qtank_mobile (release mode)",
+            "name": "qtank_mobile_app (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
