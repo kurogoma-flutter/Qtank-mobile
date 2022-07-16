@@ -1,0 +1,18 @@
+repos:
+- repo: https://github.com/fluttercommunity/import_sorter
+  rev: "master"
+  hooks:
+    - id: flutter-import-sorter
+      files: lib/*
+
+- repo: https://github.com/dluksza/flutter-analyze-pre-commit
+  rev: "master"
+  hooks:
+    - id: flutter-analyze
+      files: lib/*
+
+- repo: https://github.com/Cretezy/flutter-format-pre-commit
+  rev: "master"
+  hooks:
+    - id: flutter-format
+      files: lib/*
