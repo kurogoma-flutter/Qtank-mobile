@@ -143,7 +143,7 @@ class CreateWorkSpacePage extends ConsumerWidget {
                     child:
                         const Text('ホームへ戻る', style: QTankTextStyle.alertText),
                   ),
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 40),
                 ],
               ),
             ],

@@ -5,6 +5,7 @@ class WorkspaceModel {
   WorkspaceModel({
     required this.name,
     required this.workspaceId,
+    required this.imageUrl,
     required this.companyUrl,
     required this.createdAt,
     required this.updatedAt,
@@ -13,6 +14,7 @@ class WorkspaceModel {
   factory WorkspaceModel.fromMap(Map<String, dynamic> data) => WorkspaceModel(
         name: data['name'],
         workspaceId: data['workspaceId'],
+        imageUrl: data['imageUrl'],
         companyUrl: data['companyUrl'],
         createdAt: data['createdAt'],
         updatedAt: data['updatedAt'],
@@ -21,6 +23,7 @@ class WorkspaceModel {
   factory WorkspaceModel.initialData() => WorkspaceModel(
         name: '',
         workspaceId: '',
+        imageUrl: '',
         companyUrl: '',
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
@@ -28,6 +31,7 @@ class WorkspaceModel {
 
   String name;
   String workspaceId;
+  String imageUrl;
   String companyUrl;
   Timestamp createdAt;
   Timestamp updatedAt;
@@ -35,6 +39,7 @@ class WorkspaceModel {
   Map<String, dynamic> toMap() => {
         'name': name,
         'workspaceId': workspaceId,
+        'imageUrl': imageUrl,
         'companyUrl': companyUrl,
         'createdAt': createdAt,
         'updatedAt': updatedAt,

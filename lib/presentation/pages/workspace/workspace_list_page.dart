@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 // import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
-import 'package:go_router/go_router.dart';
 
 import '../common_components/dialog.dart';
 
@@ -234,6 +234,7 @@ class _BottomSheet extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
+                  Navigator.of(context).pop();
                   context.push('/workspace_setting');
                 },
               ),
@@ -259,6 +260,7 @@ class _BottomSheet extends StatelessWidget {
                   ),
                 ),
                 onTap: () {
+                  Navigator.of(context).pop();
                   context.push('/workspace_member_list');
                 },
               ),
@@ -294,6 +296,8 @@ class _BottomSheet extends StatelessWidget {
                     },
                   );
                   if (dialogResult == true) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
                     logger.i('退出処理');
                   }
                 },
