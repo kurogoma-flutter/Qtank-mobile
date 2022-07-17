@@ -9,7 +9,7 @@ class InquiryCompletePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: QTankColor.white,
+      backgroundColor: QTankColor.black,
       appBar: AppBar(
         backgroundColor: QTankColor.grey,
         title: const Text('お問い合わせ完了'),
@@ -22,7 +22,7 @@ class InquiryCompletePage extends StatelessWidget {
           children: [
             const Text(
               'お問合せいただきありがとうございました。\n後日運営からご連絡させて頂きます。\n\nお問合せいただいた内容は、今後のアプリケーション改善のために活用させていただきます。',
-              style: QTankTextStyle.miniTitleBlack,
+              style: QTankTextStyle.miniTitle,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),

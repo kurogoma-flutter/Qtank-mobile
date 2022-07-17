@@ -8,7 +8,7 @@ class AboutThisAppPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: QTankColor.white,
+      backgroundColor: QTankColor.black,
       appBar: AppBar(
         title: const Text('このアプリについて'),
         backgroundColor: QTankColor.grey,

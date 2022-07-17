@@ -8,7 +8,7 @@ class SpecificTradeLawPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: QTankColor.white,
+      backgroundColor: QTankColor.black,
       appBar: AppBar(
         title: const Text('特定商取引法に基づく表示'),
         backgroundColor: QTankColor.grey,

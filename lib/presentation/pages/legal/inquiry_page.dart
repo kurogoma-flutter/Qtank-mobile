@@ -15,7 +15,7 @@ class InquiryPage extends ConsumerWidget {
     final viewModel = ref.watch(inquiryPageViewModelProvider);
 
     return Scaffold(
-      backgroundColor: QTankColor.white,
+      backgroundColor: QTankColor.black,
       appBar: AppBar(
         title: const Text('お問合せ'),
         backgroundColor: QTankColor.grey,
@@ -31,7 +31,10 @@ class InquiryPage extends ConsumerWidget {
                 children: const [
                   CircularProgressIndicator(),
                   SizedBox(height: 20),
-                  Text('...sending...'),
+                  Text(
+                    '...sending...',
+                    style: QTankTextStyle.miniTitle,
+                  ),
                 ],
               ),
             )
@@ -43,11 +46,12 @@ class InquiryPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 50),
-                    const Text('お問合せ種別', style: QTankTextStyle.titleBlack),
+                    const Text('お問合せ種別', style: QTankTextStyle.title),
                     const SizedBox(height: 20),
                     DropdownButton(
                       isExpanded: true,
-                      dropdownColor: QTankColor.white,
+                      dropdownColor: QTankColor.grey,
+                      style: QTankTextStyle.subtitle,
                       items: const [
                         DropdownMenuItem(
                           value: '選択してください',
@@ -80,21 +84,24 @@ class InquiryPage extends ConsumerWidget {
                       value: viewModel.inquiryType,
                     ),
                     const SizedBox(height: 40),
-                    const Text('お問合せ内容', style: QTankTextStyle.titleBlack),
+                    const Text('お問合せ内容', style: QTankTextStyle.title),
                     const SizedBox(height: 20),
                     TextFormField(
+                      cursorColor: QTankColor.orange,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: QTankColor.white,
                         counterText: '',
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
-                            color: QTankColor.lightBlue,
+                            color: QTankColor.greyWhite,
                           ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(
-                            color: QTankColor.lightBlue,
+                            color: QTankColor.greyWhite,
                           ),
                         ),
                       ),
@@ -152,12 +159,12 @@ class InquiryPage extends ConsumerWidget {
                             primary: Colors.black,
                             shape: const StadiumBorder(),
                             side: const BorderSide(color: QTankColor.orange),
-                            backgroundColor: QTankColor.white),
+                            backgroundColor: QTankColor.orange),
                         child: const Padding(
                           padding: EdgeInsets.all(16),
                           child: Text(
                             '問い合わせ送信',
-                            style: QTankTextStyle.miniTitleBlack,
+                            style: QTankTextStyle.buttonText,
                           ),
                         ),
                       ),

@@ -103,7 +103,7 @@ class QTankTextStyle {
 
   static const TextStyle linkText = TextStyle(
       fontSize: 16,
-      fontWeight: FontWeight.w300,
+      fontWeight: FontWeight.w500,
       color: QTankColor.lightBlue,
       decoration: TextDecoration.underline);
 }

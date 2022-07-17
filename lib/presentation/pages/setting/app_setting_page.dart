@@ -14,7 +14,7 @@ class SettingAppAndLegalPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(settingPageViewModelProvider);
     return Scaffold(
-      backgroundColor: QTankColor.white,
+      backgroundColor: QTankColor.black,
       appBar: AppBar(
         title: const Text('アプリ設定と利用規約'),
         backgroundColor: QTankColor.grey,
@@ -32,26 +32,32 @@ class SettingAppAndLegalPage extends ConsumerWidget {
             children: <Widget>[
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
-                child: Text('アプリ設定', style: QTankTextStyle.miniTitleBlack),
+                child: Text('アプリ設定', style: QTankTextStyle.miniTitle),
               ),
               SwitchListTile(
                 value: viewModel.ableToNoticeAboutNewMessage,
+                activeColor: QTankColor.orange,
+                inactiveThumbColor: QTankColor.greyWhite,
+                inactiveTrackColor: QTankColor.grey,
                 onChanged: (value) {
                   viewModel.updateAbleToSendMessage(value);
                 },
                 title: const Text(
                   "新規メッセージの通知",
-                  style: QTankTextStyle.subtitleBlack,
+                  style: QTankTextStyle.subtitle,
                 ),
               ),
               SwitchListTile(
                 value: viewModel.ableToNoticeAboutNewMember,
+                activeColor: QTankColor.orange,
+                inactiveThumbColor: QTankColor.greyWhite,
+                inactiveTrackColor: QTankColor.grey,
                 onChanged: (value) {
                   viewModel.updateAbleToSendMember(value);
                 },
                 title: const Text(
                   "新規メンバー追加の通知",
-                  style: QTankTextStyle.subtitleBlack,
+                  style: QTankTextStyle.subtitle,
                 ),
               ),
               Padding(
@@ -59,9 +65,10 @@ class SettingAppAndLegalPage extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('テーマ設定', style: QTankTextStyle.subtitleBlack),
+                    const Text('テーマ設定', style: QTankTextStyle.subtitle),
                     DropdownButton(
-                      dropdownColor: QTankColor.white,
+                      dropdownColor: QTankColor.grey,
+                      style: QTankTextStyle.subtitle,
                       items: const [
                         DropdownMenuItem(
                           value: AppThemeMode.light,
@@ -87,7 +94,7 @@ class SettingAppAndLegalPage extends ConsumerWidget {
               const SizedBox(height: 30),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 24),
-                child: Text('各種規約', style: QTankTextStyle.miniTitleBlack),
+                child: Text('各種規約', style: QTankTextStyle.miniTitle),
               ),
               const _LegalSectionWithNavigateIcon(
                   title: 'アプリについて', route: '/legal/about_app'),
@@ -124,8 +131,11 @@ class _LegalSectionWithNavigateIcon extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: QTankTextStyle.subtitleBlack),
-            const Icon(Icons.arrow_forward_rounded),
+            Text(title, style: QTankTextStyle.subtitle),
+            const Icon(
+              Icons.arrow_forward_rounded,
+              color: QTankColor.white,
+            ),
           ],
         ),
         onTap: () {

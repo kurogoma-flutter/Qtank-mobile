@@ -8,7 +8,7 @@ class QAPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: QTankColor.white,
+      backgroundColor: QTankColor.black,
       appBar: AppBar(
         title: const Text('Q&Aページ'),
         backgroundColor: QTankColor.grey,
@@ -18,6 +18,7 @@ class QAPage extends StatelessWidget {
           '現在準備中です。',
           style: TextStyle(
             fontSize: 20,
+            color: QTankColor.white,
           ),
         ),
       ),

@@ -8,7 +8,7 @@ class AppTermPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: QTankColor.white,
+      backgroundColor: QTankColor.black,
       appBar: AppBar(
         title: const Text('アプリ利用規約'),
         backgroundColor: QTankColor.grey,
