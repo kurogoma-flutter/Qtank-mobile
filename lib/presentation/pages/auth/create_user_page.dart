@@ -3,14 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../data/utility/logger/logger.dart';
+import '../../../data/view_model/auth_page_view_model.dart';
 import '../../style/color.dart';
 import '../../style/style.dart';
+import '../common_components/dialog.dart';
 
 class CreateUserPage extends ConsumerWidget {
   const CreateUserPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(authPageProvider);
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -26,18 +29,18 @@ class CreateUserPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const <Widget>[
-                SizedBox(height: 20),
-                _UserIcon(),
-                _UserNameForm(),
-                _EmailForm(),
-                _PasswordField(),
-                _BelongForm(),
-                _PositionForm(),
-                SizedBox(height: 20),
-                _CreateButton(),
-                SizedBox(height: 20),
-                _NavigateCreatePageButton(),
+              children: <Widget>[
+                const SizedBox(height: 20),
+                _UserIcon(viewModel: viewModel),
+                _UserNameForm(viewModel: viewModel),
+                _EmailForm(viewModel: viewModel),
+                _PasswordField(viewModel: viewModel),
+                _BelongForm(viewModel: viewModel),
+                _PositionForm(viewModel: viewModel),
+                const SizedBox(height: 20),
+                _CreateButton(viewModel: viewModel),
+                const SizedBox(height: 20),
+                const _NavigateCreatePageButton(),
               ],
             ),
           ),
@@ -48,28 +51,41 @@ class CreateUserPage extends ConsumerWidget {
 }
 
 class _UserIcon extends StatelessWidget {
-  const _UserIcon({Key? key}) : super(key: key);
+  const _UserIcon({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
+  final AuthPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             logger.i('image picker');
+            await viewModel.pickAndStoreImage();
           },
           child: SizedBox(
             width: 80,
             height: 80,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'assets/tank-solo.png',
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.error);
-                },
-              ),
+              child: viewModel.userImagePath.isEmpty
+                  ? Image.asset(
+                      'assets/tank-solo.png',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.error);
+                      },
+                    )
+                  : Image.network(
+                      viewModel.userImagePath,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const Icon(Icons.error);
+                      },
+                    ),
             ),
           ),
         ),
@@ -91,7 +107,9 @@ class _UserIcon extends StatelessWidget {
 class _UserNameForm extends StatelessWidget {
   const _UserNameForm({
     Key? key,
+    required this.viewModel,
   }) : super(key: key);
+  final AuthPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +126,7 @@ class _UserNameForm extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: TextField(
             onChanged: (value) {
-              logger.i(value);
+              viewModel.setUserName(value);
             },
             style: QTankTextStyle.subtitle,
             decoration: const InputDecoration(
@@ -131,7 +149,9 @@ class _UserNameForm extends StatelessWidget {
 class _EmailForm extends StatelessWidget {
   const _EmailForm({
     Key? key,
+    required this.viewModel,
   }) : super(key: key);
+  final AuthPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +168,7 @@ class _EmailForm extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: TextField(
             onChanged: (value) {
-              logger.i(value);
+              viewModel.setEmail(value);
             },
             style: QTankTextStyle.subtitle,
             decoration: const InputDecoration(
@@ -171,7 +191,9 @@ class _EmailForm extends StatelessWidget {
 class _PasswordField extends StatelessWidget {
   const _PasswordField({
     Key? key,
+    required this.viewModel,
   }) : super(key: key);
+  final AuthPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +210,7 @@ class _PasswordField extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: TextField(
             onChanged: (value) {
-              logger.i(value);
+              viewModel.setPassword(value);
             },
             obscureText: true,
             style: QTankTextStyle.subtitle,
@@ -220,7 +242,9 @@ class _PasswordField extends StatelessWidget {
 class _BelongForm extends StatelessWidget {
   const _BelongForm({
     Key? key,
+    required this.viewModel,
   }) : super(key: key);
+  final AuthPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +261,7 @@ class _BelongForm extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: TextField(
             onChanged: (value) {
-              logger.i(value);
+              viewModel.setBelong(value);
             },
             style: QTankTextStyle.subtitle,
             decoration: const InputDecoration(
@@ -260,7 +284,9 @@ class _BelongForm extends StatelessWidget {
 class _PositionForm extends StatelessWidget {
   const _PositionForm({
     Key? key,
+    required this.viewModel,
   }) : super(key: key);
+  final AuthPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -277,7 +303,7 @@ class _PositionForm extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 12),
           child: TextField(
             onChanged: (value) {
-              logger.i(value);
+              viewModel.setPosition(value);
             },
             style: QTankTextStyle.subtitle,
             decoration: const InputDecoration(
@@ -298,13 +324,29 @@ class _PositionForm extends StatelessWidget {
 }
 
 class _CreateButton extends StatelessWidget {
-  const _CreateButton({Key? key}) : super(key: key);
+  const _CreateButton({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
+  final AuthPageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        logger.d('登録処理');
+      onPressed: () async {
+        var dialogResult = await showDialog<bool>(
+          context: context,
+          builder: (_) {
+            return const ConfirmationDialog(
+              dialogMessage: '入力した内容で登録しますか？',
+            );
+          },
+        );
+        if (dialogResult == true) {
+          logger.i('新規登録処理');
+          // ignore: use_build_context_synchronously
+          viewModel.signUp(context);
+        }
       },
       style: ElevatedButton.styleFrom(
         primary: QTankColor.orange,
@@ -331,7 +373,7 @@ class _NavigateCreatePageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => context.push('/auth/login'),
+      onPressed: () => context.go('/auth/login'),
       child: const Text('ログインはこちら'),
     );
   }

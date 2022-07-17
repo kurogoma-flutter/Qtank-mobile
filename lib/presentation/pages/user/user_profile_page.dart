@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 
+import '../../../data/view_model/auth_page_view_model.dart';
 import '../../style/style.dart';
 import '../common_components/dialog.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends ConsumerWidget {
   const UserProfilePage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(authPageProvider);
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -80,6 +83,8 @@ class UserProfilePage extends StatelessWidget {
                       );
                       if (dialogResult == true) {
                         logger.i('サインアウト処理');
+                        // ignore: use_build_context_synchronously
+                        viewModel.signOut(context);
                       }
                     },
                     child: const Text(
