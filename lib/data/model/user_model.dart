@@ -1,14 +1,15 @@
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class UserModel {
   UserModel({
     required this.name,
     required this.email,
     required this.uid,
-    required this.imageUrl,
-    required this.belong,
-    required this.position,
+    this.imageUrl,
+    this.belong,
+    this.position,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -27,7 +28,7 @@ class UserModel {
   factory UserModel.initialData() => UserModel(
         name: '',
         email: '',
-        uid: '',
+        uid: const Uuid().v4(),
         imageUrl: '',
         belong: '',
         position: '',
@@ -38,9 +39,9 @@ class UserModel {
   String name;
   String email;
   String uid;
-  String imageUrl;
-  String belong;
-  String position;
+  String? imageUrl;
+  String? belong;
+  String? position;
   Timestamp createdAt;
   Timestamp updatedAt;
 

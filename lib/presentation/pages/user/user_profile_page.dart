@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 
-import '../../../style/style.dart';
-import '../../common_components/dialog.dart';
+import '../../style/style.dart';
+import '../common_components/dialog.dart';
 
 class UserProfilePage extends StatelessWidget {
   const UserProfilePage({Key? key}) : super(key: key);

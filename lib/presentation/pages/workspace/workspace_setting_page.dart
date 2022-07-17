@@ -36,7 +36,7 @@ class WorkSpaceSettingPage extends StatelessWidget {
           children: <Widget>[
             _WorkSpaceIcon(
               // 仮置き
-              workSpaceImageUrl: WorkspaceModel.initialData().imageUrl,
+              workSpaceImageUrl: WorkspaceModel.initialData().imageUrl!,
             ),
             _WorkSpaceName(
               // 仮置き
@@ -44,7 +44,7 @@ class WorkSpaceSettingPage extends StatelessWidget {
             ),
             _WorkSpaceCompanyUrl(
               // 仮置き
-              workSpaceCompanyUrl: WorkspaceModel.initialData().companyUrl,
+              workSpaceCompanyUrl: WorkspaceModel.initialData().companyUrl!,
             ),
             _WorkSpaceSubmitButton(
               workSpaceId: WorkspaceModel.initialData().workspaceId,

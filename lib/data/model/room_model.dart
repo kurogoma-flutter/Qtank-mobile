@@ -1,5 +1,6 @@
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class RoomModel {
   RoomModel({
@@ -27,7 +28,7 @@ class RoomModel {
   factory RoomModel.initialData() => RoomModel(
         name: '',
         genreId: '',
-        roomId: '',
+        roomId: const Uuid().v4(),
         workspaceId: '',
         members: [],
         adminMembers: [],

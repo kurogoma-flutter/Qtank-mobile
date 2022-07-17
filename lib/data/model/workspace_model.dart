@@ -1,12 +1,13 @@
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:uuid/uuid.dart';
 
 class WorkspaceModel {
   WorkspaceModel({
     required this.name,
     required this.workspaceId,
-    required this.imageUrl,
-    required this.companyUrl,
+    this.imageUrl,
+    this.companyUrl,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -22,7 +23,7 @@ class WorkspaceModel {
 
   factory WorkspaceModel.initialData() => WorkspaceModel(
         name: '',
-        workspaceId: '',
+        workspaceId: const Uuid().v4(),
         imageUrl: '',
         companyUrl: '',
         createdAt: Timestamp.now(),
@@ -31,8 +32,8 @@ class WorkspaceModel {
 
   String name;
   String workspaceId;
-  String imageUrl;
-  String companyUrl;
+  String? imageUrl;
+  String? companyUrl;
   Timestamp createdAt;
   Timestamp updatedAt;
 

@@ -2,41 +2,51 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-class GenreModel {
-  GenreModel({
+class ContentModel {
+  ContentModel({
     required this.workspaceId,
     required this.genreId,
-    required this.genreName,
+    required this.roomId,
+    required this.contentId,
+    required this.contentText,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  factory GenreModel.fromMap(Map<String, dynamic> data) => GenreModel(
+  factory ContentModel.fromMap(Map<String, dynamic> data) => ContentModel(
         workspaceId: data['workspaceId'],
         genreId: data['genreId'],
-        genreName: data['genreName'],
+        roomId: data['roomId'],
+        contentId: data['contentId'],
+        contentText: data['contentText'],
         createdAt: data['createdAt'],
         updatedAt: data['updatedAt'],
       );
 
-  factory GenreModel.initialData() => GenreModel(
+  factory ContentModel.initialData() => ContentModel(
         workspaceId: '',
-        genreId: const Uuid().v4(),
-        genreName: '',
+        genreId: '',
+        roomId: '',
+        contentId: const Uuid().v4(),
+        contentText: '',
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       );
 
   String workspaceId;
   String genreId;
-  String genreName;
+  String roomId;
+  String contentId;
+  String contentText;
   Timestamp createdAt;
   Timestamp updatedAt;
 
   Map<String, dynamic> toMap() => {
         'workspaceId': workspaceId,
         'genreId': genreId,
-        'genreName': genreName,
+        'roomId': roomId,
+        'contentId': contentId,
+        'contentText': contentText,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
       };
