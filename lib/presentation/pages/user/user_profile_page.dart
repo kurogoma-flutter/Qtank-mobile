@@ -55,7 +55,7 @@ class UserProfilePage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                 child: Text(
                   'プロフィール編集',
-                  style: QTankTextStyle.textBoldWithShadow,
+                  style: QTankTextStyle.buttonText,
                 ),
               ),
             ),

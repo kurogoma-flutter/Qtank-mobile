@@ -104,7 +104,7 @@ class CreateWorkSpacePage extends ConsumerWidget {
                       padding: EdgeInsets.all(12.0),
                       child: Text(
                         'ワークスペースを作成',
-                        style: QTankTextStyle.subtitleBlack,
+                        style: QTankTextStyle.buttonText,
                       ),
                     ),
                     onPressed: () async {

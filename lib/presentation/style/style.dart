@@ -75,6 +75,19 @@ class QTankTextStyle {
     color: QTankColor.black,
   );
 
+  static const TextStyle buttonText = TextStyle(
+    fontSize: 14,
+    color: QTankColor.black,
+    fontWeight: FontWeight.w600,
+    shadows: <Shadow>[
+      Shadow(
+        color: QTankColor.white,
+        offset: Offset(1.2, 1.2),
+        blurRadius: 3.0,
+      ),
+    ],
+  );
+
   static const TextStyle textBoldWithShadow = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.bold,

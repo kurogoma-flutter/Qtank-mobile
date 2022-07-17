@@ -223,7 +223,7 @@ class _WorkSpaceSubmitButton extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Text(
           '変更する',
-          style: QTankTextStyle.subtitleBlack,
+          style: QTankTextStyle.buttonText,
         ),
       ),
     );

@@ -1,6 +1,9 @@
 // ルーティング設定用ファイル
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qtank_mobile/presentation/pages/auth/auth_gate_page.dart';
+import 'package:qtank_mobile/presentation/pages/auth/create_user_page.dart';
+import 'package:qtank_mobile/presentation/pages/auth/login_user_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/about_this_app_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/app_term_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/inquiry_page.dart';
@@ -12,16 +15,20 @@ import 'package:qtank_mobile/presentation/pages/workspace/workspace_setting_page
 
 import '../pages/error/simple_error_page.dart';
 import '../pages/legal/inquiry_complete_page.dart';
+import '../pages/setting/app_setting_page.dart';
+import '../pages/user/user_profile_page.dart';
 import '../pages/workspace/create_workspace_page.dart';
-import '../pages/setting/component/app_setting_page.dart';
-import '../pages/workspace/workspace_list_page.dart';
 import '../pages/workspace/workspace_home_page.dart';
-import '../pages/user/component/user_profile_page.dart';
+import '../pages/workspace/workspace_list_page.dart';
 
 final GoRouter router = GoRouter(
   routes: <GoRoute>[
     GoRoute(
       path: '/',
+      builder: (BuildContext context, GoRouterState state) => const AuthGate(),
+    ),
+    GoRoute(
+      path: '/workspace/list',
       builder: (BuildContext context, GoRouterState state) =>
           const QTankListViewPage(),
     ),
@@ -95,6 +102,15 @@ final GoRouter router = GoRouter(
       path: '/no_connection',
       builder: (BuildContext context, GoRouterState state) =>
           const SpecificTradeLawPage(),
+    ),
+    GoRoute(
+      path: '/auth/login',
+      builder: (BuildContext context, GoRouterState state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/auth/create',
+      builder: (BuildContext context, GoRouterState state) =>
+          const CreateUserPage(),
     ),
   ],
   initialLocation: '/',
