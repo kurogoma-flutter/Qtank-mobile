@@ -13,6 +13,7 @@ class SettingAppAndLegalPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(settingPageViewModelProvider);
+    viewModel.initialize();
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(

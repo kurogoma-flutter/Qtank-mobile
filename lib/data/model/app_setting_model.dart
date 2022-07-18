@@ -1,5 +1,4 @@
 // 📦 Package imports:
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:qtank_mobile/constants/enum.dart';
 
 class AppSettingModel {
@@ -7,37 +6,38 @@ class AppSettingModel {
     required this.noticeNewMessage,
     required this.noticeNewMember,
     required this.theme,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory AppSettingModel.fromMap(Map<String, dynamic> data) => AppSettingModel(
         noticeNewMessage: data['noticeNewMessage'],
         noticeNewMember: data['noticeNewMember'],
         theme: data['theme'],
-        createdAt: data['createdAt'],
-        updatedAt: data['updatedAt'],
       );
 
   factory AppSettingModel.initialData() => AppSettingModel(
         noticeNewMessage: true,
         noticeNewMember: true,
         theme: AppThemeMode.system,
-        createdAt: Timestamp.now(),
-        updatedAt: Timestamp.now(),
       );
 
   bool noticeNewMessage;
   bool noticeNewMember;
   AppThemeMode theme;
-  Timestamp createdAt;
-  Timestamp updatedAt;
 
   Map<String, dynamic> toMap() => {
         'noticeNewMessage': noticeNewMessage,
         'noticeNewMember': noticeNewMember,
         'theme': theme,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
+      };
+
+  AppSettingModel.fromJson(Map<String, dynamic> json)
+      : noticeNewMessage = json['noticeNewMessage'],
+        noticeNewMember = json['noticeNewMember'],
+        theme = json['theme'];
+
+  Map<String, dynamic> toJson() => {
+        'noticeNewMessage': noticeNewMessage,
+        'noticeNewMember': noticeNewMember,
+        'theme': theme,
       };
 }
