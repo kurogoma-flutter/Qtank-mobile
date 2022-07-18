@@ -1,8 +1,10 @@
 // 🐦 Flutter imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 // 📦 Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qtank_mobile/data/model/inquiry_model.dart';
 
 // 🌎 Project imports:
 
@@ -33,11 +35,34 @@ class InquiryPageViewModel extends ChangeNotifier {
   }
 
   Future<void> sendInquiry() async {
-    // 送信処理
+    // ローディングオン
     isSending = true;
     notifyListeners();
-    await Future.delayed(const Duration(seconds: 2));
+    // ユーザー名取得
+    final userName = await fetchUserName();
+    // モデルにセット
+    final InquiryModel inquiryModel = InquiryModel.initialData();
+    inquiryModel.userName = userName;
+    inquiryModel.inquiryType = inquiryType;
+    inquiryModel.inquiryContent = inquiryContent;
+    // Firebaseに投稿処理
+    await FirebaseFirestore.instance
+        .collection('inquiry')
+        .doc(inquiryModel.inquiryId)
+        .set(inquiryModel.toMap());
+    // 変数のクリア
+    inquiryType = '選択してください';
+    inquiryContent = '';
+    // ローディングオフ
     isSending = false;
     notifyListeners();
+  }
+
+  Future<String> fetchUserName() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) => value.data()!['name']);
   }
 }

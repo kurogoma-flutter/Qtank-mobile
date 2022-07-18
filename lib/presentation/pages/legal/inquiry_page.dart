@@ -149,7 +149,6 @@ class InquiryPage extends ConsumerWidget {
                           );
                           if (dialogResult == true) {
                             await viewModel.sendInquiry();
-
                             // ignore: use_build_context_synchronously
                             context.go('/legal/inquiry/complete');
                           }
