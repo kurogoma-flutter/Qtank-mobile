@@ -33,10 +33,14 @@ final GoRouter router = GoRouter(
           const QTankListViewPage(),
     ),
     GoRoute(
-      path: '/workspace/:workspaceId',
+      path: '/workspace/:workspaceId/:workspaceName',
       builder: (BuildContext context, GoRouterState state) {
         String workspaceId = state.params['workspaceId']!;
-        return QTankWorkSpaceHomePage(workspaceId: workspaceId);
+        String workspaceName = state.params['workspaceName']!;
+        return QTankWorkSpaceHomePage(
+          workspaceId: workspaceId,
+          workspaceName: workspaceName,
+        );
       },
     ),
     GoRoute(

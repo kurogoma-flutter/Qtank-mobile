@@ -6,10 +6,14 @@ import '../../../presentation/style/style.dart';
 import '../../style/color.dart';
 
 class QTankWorkSpaceHomePage extends StatelessWidget {
-  const QTankWorkSpaceHomePage({Key? key, required this.workspaceId})
-      : super(key: key);
+  const QTankWorkSpaceHomePage({
+    Key? key,
+    required this.workspaceId,
+    required this.workspaceName,
+  }) : super(key: key);
 
   final String workspaceId;
+  final String workspaceName;
 
   @override
   Widget build(BuildContext context) {
@@ -20,19 +24,25 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             InkWell(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(3),
-                child: Image.asset(
-                  'assets/tank-only.png',
-                  height: 36,
-                  width: 36,
-                  fit: BoxFit.cover,
+              child: SizedBox(
+                width: 36,
+                height: 36,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5),
+                  child: Image.network(
+                    'https://user-images.githubusercontent.com/67848399/179694155-db2690b3-8dc3-4c54-84f8-be156c3e0d4b.png',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      logger.e(error, stackTrace);
+                      return Image.asset('assets/tank-only.png');
+                    },
+                  ),
                 ),
               ),
               onTap: () => context.go('/'),
             ),
             const SizedBox(width: 12),
-            const Text('ワークスペース名', style: QTankTextStyle.title),
+            Text(workspaceName, style: QTankTextStyle.title),
             const Spacer(),
             IconButton(
               icon: const Icon(Icons.settings, color: QTankColor.white),

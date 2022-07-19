@@ -17,6 +17,8 @@ class QTankListViewPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(workspacePageViewModelProvider);
 
+    final futureProvider = ref.watch(workspaceFutureProvider);
+
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -48,15 +50,25 @@ class QTankListViewPage extends ConsumerWidget {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    behavior: HitTestBehavior.opaque,
-                    child: const _QTankListItem(),
-                    onTap: () => context.push('/workspace/XXXXXX'),
-                  );
-                },
+              child: futureProvider.when(
+                data: (data) => ListView.builder(
+                  itemCount: data.docs.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      child: _QTankListItem(workspaceInfo: data.docs[index]),
+                      onTap: () {
+                        viewModel.setSelectedWorkspace(
+                            data.docs[index]['workspaceId']);
+                        final String path =
+                            '/workspace/${data.docs[index]['workspaceId']}/${data.docs[index]['name']}';
+                        context.push(path);
+                      },
+                    );
+                  },
+                ),
+                error: (err, stack) => Text('Error: $err'),
+                loading: () => const Center(child: CircularProgressIndicator()),
               ),
             ),
             const Divider(color: QTankColor.greyWhite, height: 0.5),
@@ -69,18 +81,29 @@ class QTankListViewPage extends ConsumerWidget {
 }
 
 class _QTankListItem extends StatelessWidget {
-  const _QTankListItem({Key? key}) : super(key: key);
+  const _QTankListItem({
+    Key? key,
+    required this.workspaceInfo,
+  }) : super(key: key);
+
+  final workspaceInfo;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: Row(
-        children: const <Widget>[
-          _QTankListItemImage(),
-          _QTankListItemInfo(),
-          Spacer(),
-          _QTankListItemAction(),
+        children: <Widget>[
+          _QTankListItemImage(imageUrl: workspaceInfo['imageUrl']),
+          _QTankListItemInfo(
+            workspaceName: workspaceInfo['name'],
+            workspaceUrl: workspaceInfo['companyUrl'],
+          ),
+          const Spacer(),
+          _QTankListItemAction(
+            imageUrl: workspaceInfo['imageUrl'],
+            workspaceId: workspaceInfo['workspaceId'],
+          ),
         ],
       ),
     );
@@ -88,7 +111,12 @@ class _QTankListItem extends StatelessWidget {
 }
 
 class _QTankListItemImage extends StatelessWidget {
-  const _QTankListItemImage({Key? key}) : super(key: key);
+  const _QTankListItemImage({
+    Key? key,
+    required this.imageUrl,
+  }) : super(key: key);
+
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +140,14 @@ class _QTankListItemImage extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.asset('assets/tank-only.png'),
+          child: Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              logger.e(error, stackTrace);
+              return Image.asset('assets/tank-only.png');
+            },
+          ),
         ),
       ),
     );
@@ -120,7 +155,13 @@ class _QTankListItemImage extends StatelessWidget {
 }
 
 class _QTankListItemInfo extends StatelessWidget {
-  const _QTankListItemInfo({Key? key}) : super(key: key);
+  const _QTankListItemInfo({
+    Key? key,
+    required this.workspaceName,
+    required this.workspaceUrl,
+  }) : super(key: key);
+  final String workspaceName;
+  final String workspaceUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -128,31 +169,42 @@ class _QTankListItemInfo extends StatelessWidget {
       padding: const EdgeInsets.only(left: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('ワークスペースネーム', style: QTankTextStyle.miniTitle),
-          Text('https://url.com', style: QTankTextStyle.subtitle),
+        children: [
+          Text(workspaceName, style: QTankTextStyle.miniTitle),
+          Text(workspaceUrl, style: QTankTextStyle.subtitle),
         ],
       ),
     );
   }
 }
 
-class _QTankListItemAction extends StatelessWidget {
-  const _QTankListItemAction({Key? key}) : super(key: key);
+class _QTankListItemAction extends ConsumerWidget {
+  const _QTankListItemAction({
+    Key? key,
+    required this.imageUrl,
+    required this.workspaceId,
+  }) : super(key: key);
+
+  final String imageUrl;
+  final String workspaceId;
 
   void displayBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return const _BottomSheet();
+        return _BottomSheet(imageUrl: imageUrl);
       },
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.read(workspacePageViewModelProvider);
     return IconButton(
-      onPressed: () => displayBottomSheet(context),
+      onPressed: () {
+        viewModel.setSelectedWorkspace(workspaceId);
+        displayBottomSheet(context);
+      },
       icon: const Icon(
         Icons.more_vert_rounded,
         color: QTankColor.white,
@@ -164,7 +216,9 @@ class _QTankListItemAction extends StatelessWidget {
 class _BottomSheet extends StatelessWidget {
   const _BottomSheet({
     Key? key,
+    required this.imageUrl,
   }) : super(key: key);
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +255,14 @@ class _BottomSheet extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
-                          child: Image.asset('assets/tank-only.png'),
+                          child: Image.network(
+                            imageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              logger.e(error, stackTrace);
+                              return Image.asset('assets/tank-only.png');
+                            },
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),

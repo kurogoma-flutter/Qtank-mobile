@@ -23,11 +23,18 @@ class WorkspacePageViewModel extends ChangeNotifier {
   /// 状態を持つ変数
   String newWorkspaceName = '';
   bool isConnecting = true;
+  String selectedWorkspaceId = '';
 
   /// stateを更新するメソッド
   // ワークスペース名を更新
   void updateWorkspaceName(String name) {
     newWorkspaceName = name;
+    notifyListeners();
+  }
+
+  void setSelectedWorkspace(String workspaceId) {
+    selectedWorkspaceId = workspaceId;
+    logger.i(selectedWorkspaceId);
     notifyListeners();
   }
 
@@ -69,19 +76,28 @@ class WorkspacePageViewModel extends ChangeNotifier {
       logger.wtf(e);
     }
   }
-
-  Future<List<dynamic>> fetchJoinedWorkSpaceList() async {
-    final uid = FirebaseAuth.instance.currentUser!.uid;
-    final snapshot =
-        await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    return snapshot.get('joinedWorkspaces');
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> fetchWorkspaceList(
-      List<String> workspaceList) {
-    return FirebaseFirestore.instance
-        .collection('workspaces')
-        .where('workspaceId', whereIn: workspaceList)
-        .get();
-  }
 }
+
+/// FutureProvider用
+
+Future<List<dynamic>> fetchJoinedWorkSpaceList() async {
+  final uid = FirebaseAuth.instance.currentUser!.uid;
+  final snapshot =
+      await FirebaseFirestore.instance.collection('users').doc(uid).get();
+  return snapshot.get('joinedWorkspaces');
+}
+
+Future<QuerySnapshot<Map<String, dynamic>>> fetchWorkspaceList(
+    List<dynamic> workspaceList) {
+  return FirebaseFirestore.instance
+      .collection('workspaces')
+      .where('workspaceId', whereIn: workspaceList)
+      .get();
+}
+
+final workspaceFutureProvider = FutureProvider.autoDispose(
+  (ref) async {
+    final joinedWorkspaces = await fetchJoinedWorkSpaceList();
+    return fetchWorkspaceList(joinedWorkspaces);
+  },
+);
