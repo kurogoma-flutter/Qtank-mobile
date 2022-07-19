@@ -84,9 +84,4 @@ class WorkspacePageViewModel extends ChangeNotifier {
         .where('workspaceId', whereIn: workspaceList)
         .get();
   }
-
-  Future<void> test() async {
-    final data = await fetchJoinedWorkSpaceList();
-    print(data);
-  }
 }
