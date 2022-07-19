@@ -74,8 +74,7 @@ class WorkspacePageViewModel extends ChangeNotifier {
     final uid = FirebaseAuth.instance.currentUser!.uid;
     final snapshot =
         await FirebaseFirestore.instance.collection('users').doc(uid).get();
-    final data = snapshot.data();
-    return data!['joinedWorkspaces'];
+    return snapshot.get('joinedWorkspaces');
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> fetchWorkspaceList(
@@ -84,5 +83,10 @@ class WorkspacePageViewModel extends ChangeNotifier {
         .collection('workspaces')
         .where('workspaceId', whereIn: workspaceList)
         .get();
+  }
+
+  Future<void> test() async {
+    final data = await fetchJoinedWorkSpaceList();
+    print(data);
   }
 }
