@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -90,52 +91,27 @@ class _QTankListItemImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomLeft,
-      children: [
-        Container(
-          width: 65,
-          height: 65,
-          color: Colors.transparent,
+    return Badge(
+      position: BadgePosition.topEnd(top: 4, end: -4),
+      animationDuration: const Duration(milliseconds: 0),
+      // バッジ表示用
+      badgeContent:
+          const Text('●', style: TextStyle(color: Colors.orange, fontSize: 6)),
+      badgeColor: Colors.orange,
+      // TODO(Kurogoma939): バッジの切り替え処理を実装する
+      showBadge: true,
+      child: Container(
+        width: 60,
+        height: 60,
+        margin: const EdgeInsets.only(top: 8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: QTankColor.grey, width: 2),
+          color: QTankColor.white,
         ),
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: QTankColor.grey, width: 2),
-            color: QTankColor.white,
-          ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset('assets/tank-only.png'),
-          ),
-        ),
-        const Positioned(
-          top: -1,
-          right: -1,
-          child: _NotReadIcon(),
-        ),
-      ],
-    );
-  }
-}
-
-class _NotReadIcon extends StatelessWidget {
-  const _NotReadIcon({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Visibility(
-      visible: true,
-      child: CircleAvatar(
-        backgroundColor: QTankColor.black,
-        maxRadius: 9,
-        child: CircleAvatar(
-          backgroundColor: QTankColor.orange,
-          maxRadius: 6,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset('assets/tank-only.png'),
         ),
       ),
     );
