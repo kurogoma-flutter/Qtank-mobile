@@ -1,5 +1,6 @@
 // 🐦 Flutter imports:
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // 📦 Package imports:
@@ -69,15 +70,12 @@ class WorkspacePageViewModel extends ChangeNotifier {
     }
   }
 
-  Future<List<String>> fetchJoinedWorkSpaceList() {
-    return FirebaseFirestore.instance
-        .collection('workspaces')
-        .get()
-        .then((value) {
-      return value.docs.map((doc) {
-        return doc.data()['joinedWorkspaces'] as String;
-      }).toList();
-    });
+  Future<List<dynamic>> fetchJoinedWorkSpaceList() async {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+    final snapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    final data = snapshot.data();
+    return data!['joinedWorkspaces'];
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> fetchWorkspaceList(

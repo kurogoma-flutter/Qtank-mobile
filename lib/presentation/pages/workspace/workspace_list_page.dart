@@ -17,9 +17,6 @@ class QTankListViewPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(workspacePageViewModelProvider);
 
-    final workspaceList = viewModel.fetchJoinedWorkSpaceList();
-    logger.i(workspaceList);
-
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
