@@ -65,3 +65,49 @@ class ConfirmationDialog extends StatelessWidget {
     );
   }
 }
+
+class CustomAlertDialog extends StatelessWidget {
+  const CustomAlertDialog({Key? key, required this.dialogMessage})
+      : super(key: key);
+  final String dialogMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('エラー', textAlign: TextAlign.center),
+      content: Text(dialogMessage, textAlign: TextAlign.center),
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20.0))),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: QTankColor.lightBlue,
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    child: Text('OK', style: QTankTextStyle.miniTitle),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

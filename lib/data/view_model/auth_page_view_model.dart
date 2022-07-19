@@ -12,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:qtank_mobile/data/model/user_model.dart';
 
 // 🌎 Project imports:
+import '../../presentation/pages/common_components/dialog.dart';
 import '../utility/logger/logger.dart';
 
 final authPageProvider = ChangeNotifierProvider<AuthPageViewModel>(
@@ -78,7 +79,7 @@ class AuthPageViewModel extends ChangeNotifier {
       clearUserInfo();
 
       // ignore: use_build_context_synchronously
-      return context.go('/');
+      return context.go('/workspace/list');
     } on FirebaseAuthException catch (e) {
       // ログインに失敗した場合
       var message = '';
@@ -113,6 +114,12 @@ class AuthPageViewModel extends ChangeNotifier {
       }
 
       logger.w(message);
+      showDialog(
+        context: context,
+        builder: (context) => CustomAlertDialog(
+          dialogMessage: message,
+        ),
+      );
     }
   }
 
@@ -183,6 +190,12 @@ class AuthPageViewModel extends ChangeNotifier {
       }
 
       logger.w(message);
+      showDialog(
+        context: context,
+        builder: (context) => CustomAlertDialog(
+          dialogMessage: message,
+        ),
+      );
     }
   }
 
