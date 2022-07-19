@@ -68,4 +68,23 @@ class WorkspacePageViewModel extends ChangeNotifier {
       logger.wtf(e);
     }
   }
+
+  Future<List<String>> fetchJoinedWorkSpaceList() {
+    return FirebaseFirestore.instance
+        .collection('workspaces')
+        .get()
+        .then((value) {
+      return value.docs.map((doc) {
+        return doc.data()['joinedWorkspaces'] as String;
+      }).toList();
+    });
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> fetchWorkspaceList(
+      List<String> workspaceList) {
+    return FirebaseFirestore.instance
+        .collection('workspaces')
+        .where('workspaceId', whereIn: workspaceList)
+        .get();
+  }
 }

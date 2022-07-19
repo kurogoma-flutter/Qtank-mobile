@@ -10,6 +10,7 @@ class UserModel {
     this.imageUrl,
     this.belong,
     this.position,
+    required this.joinedWorkspaces,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -21,6 +22,7 @@ class UserModel {
         imageUrl: data['imageUrl'],
         belong: data['belong'],
         position: data['position'],
+        joinedWorkspaces: List<String>.from(data['joinedWorkspaces']),
         createdAt: data['createdAt'],
         updatedAt: data['updatedAt'],
       );
@@ -32,6 +34,7 @@ class UserModel {
         imageUrl: '',
         belong: '',
         position: '',
+        joinedWorkspaces: [],
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       );
@@ -42,6 +45,7 @@ class UserModel {
   String? imageUrl;
   String? belong;
   String? position;
+  List<String> joinedWorkspaces;
   Timestamp createdAt;
   Timestamp updatedAt;
 
@@ -52,6 +56,7 @@ class UserModel {
         'imageUrl': imageUrl,
         'belong': belong,
         'position': position,
+        'joinedWorkspaces': joinedWorkspaces,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
       };

@@ -7,6 +7,7 @@ import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 
+import '../../../data/view_model/workspace_page_view_model.dart';
 import '../common_components/dialog.dart';
 
 class QTankListViewPage extends ConsumerWidget {
@@ -14,7 +15,10 @@ class QTankListViewPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final viewModel = ref.watch(workspacePageViewModelProvider);
+    final viewModel = ref.watch(workspacePageViewModelProvider);
+
+    final workspaceList = viewModel.fetchJoinedWorkSpaceList();
+    logger.i(workspaceList);
 
     return Scaffold(
       backgroundColor: QTankColor.black,

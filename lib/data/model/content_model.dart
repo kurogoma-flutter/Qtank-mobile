@@ -1,5 +1,6 @@
 // 📦 Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:uuid/uuid.dart';
 
 class ContentModel {
@@ -9,6 +10,7 @@ class ContentModel {
     required this.roomId,
     required this.contentId,
     required this.contentText,
+    required this.uid,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -19,6 +21,7 @@ class ContentModel {
         roomId: data['roomId'],
         contentId: data['contentId'],
         contentText: data['contentText'],
+        uid: data['uid'],
         createdAt: data['createdAt'],
         updatedAt: data['updatedAt'],
       );
@@ -29,6 +32,7 @@ class ContentModel {
         roomId: '',
         contentId: const Uuid().v4(),
         contentText: '',
+        uid: FirebaseAuth.instance.currentUser!.uid,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),
       );
@@ -38,6 +42,7 @@ class ContentModel {
   String roomId;
   String contentId;
   String contentText;
+  String uid;
   Timestamp createdAt;
   Timestamp updatedAt;
 
@@ -47,6 +52,7 @@ class ContentModel {
         'roomId': roomId,
         'contentId': contentId,
         'contentText': contentText,
+        'uid': uid,
         'createdAt': createdAt,
         'updatedAt': updatedAt,
       };
