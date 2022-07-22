@@ -10,7 +10,18 @@ import '../../style/style.dart';
 import '../common_components/dialog.dart';
 
 class UserProfilePage extends ConsumerWidget {
-  const UserProfilePage({Key? key}) : super(key: key);
+  const UserProfilePage({
+    Key? key,
+  }) : super(key: key);
+
+  void displayBottomSheet(BuildContext context, AuthPageViewModel viewModel) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return _BottomSheet(viewModel: viewModel);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,6 +34,12 @@ class UserProfilePage extends ConsumerWidget {
         backgroundColor: QTankColor.grey,
         elevation: 0,
         centerTitle: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu_open),
+            onPressed: () => displayBottomSheet(context, viewModel),
+          ),
+        ],
       ),
       body: future.when(
         data: (user) {
@@ -58,57 +75,9 @@ class UserProfilePage extends ConsumerWidget {
                 _TitleLabelWithText(
                     label: '最終更新',
                     text: userData["updatedAt"].toDate().toString()),
-                ElevatedButton(
-                  onPressed: () {
-                    logger.i('プロフィール編集');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: QTankColor.orange,
-                    onPrimary: QTankColor.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                    child: Text(
-                      'プロフィール編集',
-                      style: QTankTextStyle.buttonText,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.logout_rounded,
-                        color: QTankColor.red,
-                      ),
-                      TextButton(
-                        onPressed: () async {
-                          var dialogResult = await showDialog<bool>(
-                            context: context,
-                            builder: (_) {
-                              return const ConfirmationDialog(
-                                dialogMessage: 'ログアウトしてもよろしいですか？',
-                              );
-                            },
-                          );
-                          if (dialogResult == true) {
-                            logger.i('サインアウト処理');
-                            // ignore: use_build_context_synchronously
-                            viewModel.signOut(context);
-                          }
-                        },
-                        child: const Text(
-                          'アプリからサインアウト',
-                          style: QTankTextStyle.alertTextBold,
-                        ),
-                      ),
-                    ],
-                  ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8, bottom: 40),
+                  child: _EditProfileButton(),
                 ),
               ],
             ),
@@ -116,6 +85,35 @@ class UserProfilePage extends ConsumerWidget {
         },
         error: (err, stack) => Text('Error: $err'),
         loading: () => const Center(child: CircularProgressIndicator()),
+      ),
+    );
+  }
+}
+
+class _EditProfileButton extends StatelessWidget {
+  const _EditProfileButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        logger.i('プロフィール編集');
+      },
+      style: ElevatedButton.styleFrom(
+        primary: QTankColor.orange,
+        onPrimary: QTankColor.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        child: Text(
+          'プロフィール編集',
+          style: QTankTextStyle.buttonText,
+        ),
       ),
     );
   }
@@ -171,6 +169,149 @@ class _TitleLabelWithBoldText extends StatelessWidget {
           style: QTankTextStyle.subtitleBold,
         ),
       ],
+    );
+  }
+}
+
+class _BottomSheet extends StatelessWidget {
+  const _BottomSheet({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
+  final AuthPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 180,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: QTankColor.white,
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.logout_outlined,
+                        color: QTankColor.black,
+                      ),
+                      SizedBox(width: 10),
+                      Text('サインアウトする', style: QTankTextStyle.miniTitleBlack),
+                    ],
+                  ),
+                ),
+                onTap: () async {
+                  var dialogResult = await showDialog<bool>(
+                    context: context,
+                    builder: (_) {
+                      return const ConfirmationDialog(
+                        dialogMessage: 'サインアウトしてもよろしいですか？',
+                      );
+                    },
+                  );
+                  if (dialogResult == true) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
+                    // ignore: use_build_context_synchronously
+                    viewModel.signOut(context);
+                  }
+                },
+              ),
+            ),
+            const Divider(color: QTankColor.greyWhite, height: 0.2),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.delete_forever_rounded,
+                        color: QTankColor.red,
+                      ),
+                      SizedBox(width: 10),
+                      Text('ワークスペースから退出する',
+                          style: QTankTextStyle.alertTextBold),
+                    ],
+                  ),
+                ),
+                onTap: () async {
+                  var dialogResult = await showDialog<bool>(
+                    context: context,
+                    builder: (_) {
+                      return const ConfirmationDialog(
+                        dialogMessage: 'ワークスペースから退出してもよろしいですか？',
+                      );
+                    },
+                  );
+                  if (dialogResult == true) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
+                    logger.i('退出処理');
+                  }
+                },
+              ),
+            ),
+            const Divider(color: QTankColor.greyWhite, height: 0.2),
+            Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 35,
+                  padding: const EdgeInsets.only(left: 12),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.password_rounded,
+                        color: QTankColor.black,
+                      ),
+                      SizedBox(width: 10),
+                      Text('パスワードを変更する', style: QTankTextStyle.miniTitleBlack),
+                    ],
+                  ),
+                ),
+                onTap: () async {
+                  var dialogResult = await showDialog<bool>(
+                    context: context,
+                    builder: (_) {
+                      return const ConfirmationDialog(
+                        dialogMessage: 'パスワードの再設定を行いますか？',
+                      );
+                    },
+                  );
+                  if (dialogResult == true) {
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
+                    // ignore: use_build_context_synchronously
+                    viewModel.sendPasswordResetEmail('', context);
+                  }
+                },
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
     );
   }
 }

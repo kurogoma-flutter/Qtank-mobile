@@ -246,6 +246,56 @@ class AuthPageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // パスワード再設定メール
+  Future sendPasswordResetEmail(String email, BuildContext context) async {
+    logger.i('パスワード再設定通知開始');
+    try {
+      // メールアドレスがない場合、自動取得
+      if (email.isEmpty) {
+        email = FirebaseAuth.instance.currentUser!.email!;
+      }
+
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      // 成功したダイアログ
+      return const CustomAlertDialog(
+          dialogMessage: '登録したメールアドレスに再設定用のメールを送信しました。');
+    } on FirebaseAuthException {
+      logger.w('再設定通知の送信に失敗しました。');
+      // 失敗したダイアログ
+      return const CustomAlertDialog(dialogMessage: '送信に失敗しました。');
+    }
+  }
+
+  /// 退会処理
+  Future deleteUser(BuildContext context) async {
+    try {
+      // 退会処理
+      var result = await showDialog<bool>(
+        context: context,
+        builder: (_) {
+          return const ConfirmationDialog(
+            dialogMessage: '削除してもよろしいですか？',
+          );
+        },
+      );
+      User? user = FirebaseAuth.instance.currentUser!;
+      if (result != null && result) {
+        // usersコレクションから削除する
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .delete();
+        // Authenticationから削除
+        await user.delete();
+        // 全て削除したらログインページへ遷移する
+        // ignore: use_build_context_synchronously
+        context.go('/auth/login');
+      }
+    } on FirebaseAuthException {
+      logger.w('退会処理に失敗しました。');
+    }
+  }
+
   /// --------------------------------------------------
   /// ユーザーアイコン系の処理
   /// --------------------------------------------------
