@@ -33,7 +33,7 @@ class UserProfilePage extends ConsumerWidget {
         title: const Text('ユーザープロフィール'),
         backgroundColor: QTankColor.grey,
         elevation: 0,
-        centerTitle: false,
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.menu_open),
@@ -99,7 +99,7 @@ class _EditProfileButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        logger.i('プロフィール編集');
+        context.push('/user_profile/edit');
       },
       style: ElevatedButton.styleFrom(
         primary: QTankColor.orange,

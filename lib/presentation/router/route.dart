@@ -16,6 +16,7 @@ import 'package:qtank_mobile/presentation/pages/workspace/workspace_setting_page
 import '../pages/error/simple_error_page.dart';
 import '../pages/legal/inquiry_complete_page.dart';
 import '../pages/setting/app_setting_page.dart';
+import '../pages/user/user_profile_edit_page.dart';
 import '../pages/user/user_profile_page.dart';
 import '../pages/workspace/create_workspace_page.dart';
 import '../pages/workspace/workspace_home_page.dart';
@@ -47,6 +48,11 @@ final GoRouter router = GoRouter(
       path: '/user_profile',
       builder: (BuildContext context, GoRouterState state) =>
           const UserProfilePage(),
+    ),
+    GoRoute(
+      path: '/user_profile/edit',
+      builder: (BuildContext context, GoRouterState state) =>
+          const UserProfileEditPage(),
     ),
     GoRoute(
       path: '/setting_app_and_legal',
