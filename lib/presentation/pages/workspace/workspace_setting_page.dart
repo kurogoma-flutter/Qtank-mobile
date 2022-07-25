@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:qtank_mobile/data/model/workspace_model.dart';
+import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 
@@ -19,8 +20,6 @@ class WorkSpaceSettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
-    print(workspaceId);
-
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -38,26 +37,57 @@ class WorkSpaceSettingPage extends StatelessWidget {
         ),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: Column(
+        child: _WorkSpaceContentBody(workspaceId: workspaceId),
+      ),
+    );
+  }
+}
+
+class _WorkSpaceContentBody extends ConsumerWidget {
+  const _WorkSpaceContentBody({
+    Key? key,
+    required this.workspaceId,
+  }) : super(key: key);
+
+  final String workspaceId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final workspaceFuture = ref.watch(workspaceFutureProvider(workspaceId));
+
+    return workspaceFuture.when(
+      data: (workspace) {
+        return Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             _WorkSpaceIcon(
               // 仮置き
-              workSpaceImageUrl: WorkspaceModel.initialData().imageUrl!,
+              workSpaceImageUrl: workspace.imageUrl ?? '',
             ),
             _WorkSpaceName(
               // 仮置き
-              workSpaceName: WorkspaceModel.initialData().name,
+              workSpaceName: workspace.name,
             ),
             _WorkSpaceCompanyUrl(
               // 仮置き
-              workSpaceCompanyUrl: WorkspaceModel.initialData().companyUrl!,
+              workSpaceCompanyUrl: workspace.companyUrl ?? '',
             ),
             _WorkSpaceSubmitButton(
-              workSpaceId: WorkspaceModel.initialData().workspaceId,
+              workSpaceId: workspace.workspaceId,
             )
           ],
-        ),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, s) => Column(
+        children: [
+          const Text('エラーが発生しました。再度トップに戻ってやり直すか、管理者にお問合せください。'),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () => context.go('/'),
+            child: const Text('トップに戻る'),
+          )
+        ],
       ),
     );
   }
@@ -84,11 +114,11 @@ class _WorkSpaceIcon extends StatelessWidget {
             height: 80,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'assets/tank-solo.png',
+              child: Image.network(
+                workSpaceImageUrl,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return const Icon(Icons.error);
+                  return Image.asset('assets/tank-solo.png', fit: BoxFit.cover);
                 },
               ),
             ),
@@ -114,7 +144,9 @@ class _WorkSpaceName extends StatelessWidget {
     Key? key,
     required this.workSpaceName,
   }) : super(key: key);
+
   final String workSpaceName;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -131,7 +163,7 @@ class _WorkSpaceName extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: TextFormField(
             onChanged: (value) => logger.i(value),
-            initialValue: 'ワークスペース名',
+            initialValue: workSpaceName,
             cursorColor: QTankColor.white,
             style: const TextStyle(
               color: QTankColor.white,
@@ -174,7 +206,7 @@ class _WorkSpaceCompanyUrl extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: TextFormField(
             onChanged: (value) => logger.i(value),
-            initialValue: 'https://qtank.com',
+            initialValue: workSpaceCompanyUrl,
             cursorColor: QTankColor.white,
             style: const TextStyle(
               color: QTankColor.white,

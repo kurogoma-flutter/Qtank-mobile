@@ -92,9 +92,19 @@ Future<QuerySnapshot<Map<String, dynamic>>> fetchWorkspaceList(
       .get();
 }
 
-final workspaceFutureProvider = FutureProvider.autoDispose(
+final workspaceListFutureProvider = FutureProvider.autoDispose(
   (ref) async {
     final joinedWorkspaces = await fetchJoinedWorkSpaceList();
     return fetchWorkspaceList(joinedWorkspaces);
   },
 );
+
+final workspaceFutureProvider = FutureProvider.autoDispose
+    .family<WorkspaceModel, String>((ref, workspaceId) async {
+  final snapshot = await FirebaseFirestore.instance
+      .collection('workspaces')
+      .doc(workspaceId)
+      .get();
+
+  return WorkspaceModel.fromMap(snapshot.data()!);
+});

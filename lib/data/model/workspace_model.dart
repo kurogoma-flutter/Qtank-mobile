@@ -13,10 +13,10 @@ class WorkspaceModel {
   });
 
   factory WorkspaceModel.fromMap(Map<String, dynamic> data) => WorkspaceModel(
-        name: data['name'],
-        workspaceId: data['workspaceId'],
-        imageUrl: data['imageUrl'],
-        companyUrl: data['companyUrl'],
+        name: data['name'] ?? '',
+        workspaceId: data['workspaceId'] ?? '',
+        imageUrl: data['imageUrl'] ?? '',
+        companyUrl: data['companyUrl'] ?? '',
         createdAt: data['createdAt'],
         updatedAt: data['updatedAt'],
       );
