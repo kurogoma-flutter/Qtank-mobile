@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 
+import '../../../data/utility/logger/logger.dart';
 import '../../../data/view_model/user_page_view_model.dart';
+import '../common_components/dialog.dart';
 
 class UserProfileEditPage extends ConsumerWidget {
   const UserProfileEditPage({
@@ -147,7 +149,20 @@ class _SubmitButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () async {
+        var dialogResult = await showDialog<bool>(
+          context: context,
+          builder: (_) {
+            return const ConfirmationDialog(
+              dialogMessage: '入力した内容で変更しますか？',
+            );
+          },
+        );
+
+        if (dialogResult != null && dialogResult) {
+          logger.d('変更処理');
+        }
+      },
       style: ElevatedButton.styleFrom(
         primary: QTankColor.orange,
         shape: RoundedRectangleBorder(
