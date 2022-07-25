@@ -8,11 +8,18 @@ import '../../../data/utility/logger/logger.dart';
 import '../common_components/dialog.dart';
 
 class WorkSpaceSettingPage extends StatelessWidget {
-  const WorkSpaceSettingPage({Key? key}) : super(key: key);
+  const WorkSpaceSettingPage({
+    Key? key,
+    required this.workspaceId,
+  }) : super(key: key);
+
+  final String workspaceId;
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+
+    print(workspaceId);
 
     return Scaffold(
       backgroundColor: QTankColor.black,

@@ -47,7 +47,7 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.settings, color: QTankColor.white),
               onPressed: () {
-                context.push('/workspace_setting');
+                context.push('/workspace_setting/$workspaceId');
               },
             ),
           ],

@@ -54,6 +54,11 @@ class QTankListViewPage extends ConsumerWidget {
                 data: (data) => ListView.builder(
                   itemCount: data.docs.length,
                   itemBuilder: (BuildContext context, int index) {
+                    if (data.docs.isEmpty) {
+                      return const Center(
+                        child: Text('所属しているワークスペースはありません'),
+                      );
+                    }
                     return GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       child: _QTankListItem(workspaceInfo: data.docs[index]),
@@ -80,7 +85,7 @@ class QTankListViewPage extends ConsumerWidget {
   }
 }
 
-class _QTankListItem extends StatelessWidget {
+class _QTankListItem extends ConsumerWidget {
   const _QTankListItem({
     Key? key,
     required this.workspaceInfo,
@@ -89,7 +94,8 @@ class _QTankListItem extends StatelessWidget {
   final workspaceInfo;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(workspacePageViewModelProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: Row(
@@ -103,6 +109,7 @@ class _QTankListItem extends StatelessWidget {
           _QTankListItemAction(
             imageUrl: workspaceInfo['imageUrl'],
             workspaceId: workspaceInfo['workspaceId'],
+            viewModel: viewModel,
           ),
         ],
       ),
@@ -183,16 +190,21 @@ class _QTankListItemAction extends ConsumerWidget {
     Key? key,
     required this.imageUrl,
     required this.workspaceId,
+    required this.viewModel,
   }) : super(key: key);
 
   final String imageUrl;
   final String workspaceId;
+  final WorkspacePageViewModel viewModel;
 
   void displayBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return _BottomSheet(imageUrl: imageUrl);
+        return _BottomSheet(
+          imageUrl: imageUrl,
+          viewModel: viewModel,
+        );
       },
     );
   }
@@ -217,8 +229,10 @@ class _BottomSheet extends StatelessWidget {
   const _BottomSheet({
     Key? key,
     required this.imageUrl,
+    required this.viewModel,
   }) : super(key: key);
   final String imageUrl;
+  final WorkspacePageViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -273,7 +287,8 @@ class _BottomSheet extends StatelessWidget {
                 ),
                 onTap: () {
                   Navigator.of(context).pop();
-                  context.push('/workspace_setting');
+                  context.push(
+                      '/workspace_setting/${viewModel.selectedWorkspaceId}');
                 },
               ),
             ),

@@ -65,10 +65,13 @@ final GoRouter router = GoRouter(
           const CreateWorkSpacePage(),
     ),
     GoRoute(
-      path: '/workspace_setting',
-      builder: (BuildContext context, GoRouterState state) =>
-          const WorkSpaceSettingPage(),
-    ),
+        path: '/workspace_setting/:workspaceId',
+        builder: (BuildContext context, GoRouterState state) {
+          String workspaceId = state.params['workspaceId']!;
+          return WorkSpaceSettingPage(
+            workspaceId: workspaceId,
+          );
+        }),
     GoRoute(
       path: '/workspace_member_list',
       builder: (BuildContext context, GoRouterState state) =>
