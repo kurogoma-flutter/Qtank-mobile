@@ -147,14 +147,16 @@ class _QTankListItemImage extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.network(
-            imageUrl,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              logger.e(error, stackTrace);
-              return Image.asset('assets/tank-only.png');
-            },
-          ),
+          child: imageUrl.isNotEmpty
+              ? Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    logger.e(error, stackTrace);
+                    return Image.asset('assets/tank-only.png');
+                  },
+                )
+              : Image.asset('assets/tank-only.png'),
         ),
       ),
     );
@@ -269,14 +271,16 @@ class _BottomSheet extends StatelessWidget {
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(5),
-                          child: Image.network(
-                            imageUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              logger.e(error, stackTrace);
-                              return Image.asset('assets/tank-only.png');
-                            },
-                          ),
+                          child: imageUrl.isNotEmpty
+                              ? Image.network(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    logger.e(error, stackTrace);
+                                    return Image.asset('assets/tank-only.png');
+                                  },
+                                )
+                              : Image.asset('assets/tank-only.png'),
                         ),
                       ),
                       const SizedBox(width: 10),

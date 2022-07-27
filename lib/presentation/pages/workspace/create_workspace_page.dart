@@ -130,10 +130,8 @@ class CreateWorkSpacePage extends ConsumerWidget {
                         },
                       );
                       if (dialogResult == true) {
-                        await viewModel.createNewWorkSpace();
-                        // 作成完了後、ワークスペースのページに遷移
                         // ignore: use_build_context_synchronously
-                        context.go('/workspace/XXXXXXXXXX');
+                        await viewModel.createNewWorkSpace(context);
                       }
                     },
                   ),

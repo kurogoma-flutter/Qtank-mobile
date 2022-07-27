@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/data/model/workspace_model.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 
@@ -39,16 +40,29 @@ class WorkspacePageViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createNewWorkSpace() async {
+  Future<void> createNewWorkSpace(BuildContext context) async {
     if (newWorkspaceName.isNotEmpty) {
       try {
+        // 1. ワークスペースの値をセット
         WorkspaceModel workspaceModel = WorkspaceModel.initialData();
         workspaceModel.name = newWorkspaceName;
-
+        // 2. ワークスペースをFirestoreに保存
         await FirebaseFirestore.instance
             .collection('workspaces')
             .doc(workspaceModel.workspaceId)
             .set(workspaceModel.toMap());
+        // 3. ワークスペース一覧に追加
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({
+          'joinedWorkspaces':
+              FieldValue.arrayUnion([workspaceModel.workspaceId])
+        });
+        // 4. ワークスペース画面に移動
+        // ignore: use_build_context_synchronously
+        context.go(
+            '/workspace/${workspaceModel.workspaceId}/${workspaceModel.name}');
       } on FirebaseException catch (e) {
         logger.w(e);
       }
