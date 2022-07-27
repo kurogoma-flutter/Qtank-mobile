@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
-import '../../../constants/emoji_data.dart';
+import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import '../../../presentation/style/style.dart';
 import '../../style/color.dart';
 
@@ -148,43 +149,43 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: ListView(
-                        children: const [
-                          ExpansionTile(
-                            initiallyExpanded: true,
-                            iconColor: QTankColor.greyWhite,
-                            title: _QTankRoomGenreTitle(),
-                            children: [
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                            ],
-                          ),
-                          ExpansionTile(
-                            initiallyExpanded: false,
-                            iconColor: QTankColor.greyWhite,
-                            title: _QTankRoomGenreTitle(),
-                            children: [
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                            ],
-                          ),
-                          ExpansionTile(
-                            initiallyExpanded: false,
-                            iconColor: QTankColor.greyWhite,
-                            title: _QTankRoomGenreTitle(),
-                            children: [
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                              _QTankRoomListItem(),
-                            ],
-                          ),
-                        ],
-                      ),
+                      child: Consumer(builder: (context, ref, child) {
+                        final future = ref
+                            .watch(workspaceGenreFutureProvider(workspaceId));
+                        return ListView(
+                          children: <Widget>[
+                            future.when(
+                              data: ((data) {
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: data.length,
+                                    itemBuilder: (context, index) {
+                                      return ExpansionTile(
+                                        initiallyExpanded:
+                                            index == 0, // １つ目だけオープンにする
+                                        iconColor: QTankColor.greyWhite,
+                                        title: _QTankRoomGenreTitle(
+                                          genreName: data[index].genreName,
+                                          genreId: data[index].genreId,
+                                          icon: data[index].icon,
+                                        ),
+                                        children: const [
+                                          // TODO: futureにする
+                                          _QTankRoomListItem(),
+                                        ],
+                                      );
+                                    });
+                              }),
+                              error: ((error, stackTrace) {
+                                return const Center(
+                                  child: Text('エラーが発生しました。'),
+                                );
+                              }),
+                              loading: () => const SizedBox(),
+                            )
+                          ],
+                        );
+                      }),
                     ),
                   ],
                 ),
@@ -197,9 +198,40 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
   }
 }
 
-// ルーム名のタイトル
+/// ジャンルのタイトル
+class _QTankRoomGenreTitle extends StatelessWidget {
+  const _QTankRoomGenreTitle({
+    Key? key,
+    required this.genreName,
+    required this.icon,
+    required this.genreId,
+  }) : super(key: key);
+
+  final String genreName;
+  final String icon;
+  final String genreId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(genreName, style: QTankTextStyle.miniTitle),
+        const SizedBox(width: 10),
+        Text(
+          icon,
+          style: QTankTextStyle.miniTitle,
+        ),
+      ],
+    );
+  }
+}
+
+/// ルーム名のタイトル
 class _QTankRoomListItem extends StatelessWidget {
-  const _QTankRoomListItem({Key? key}) : super(key: key);
+  const _QTankRoomListItem({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -216,27 +248,7 @@ class _QTankRoomListItem extends StatelessWidget {
   }
 }
 
-// ジャンルのタイトル
-class _QTankRoomGenreTitle extends StatelessWidget {
-  const _QTankRoomGenreTitle({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        const Text('ジャンル名', style: QTankTextStyle.miniTitle),
-        const SizedBox(width: 10),
-        Text(
-          emojiData[22],
-          style: QTankTextStyle.miniTitle,
-        ),
-      ],
-    );
-  }
-}
-
-// 検索バー
+/// 検索バー
 class _SearchBar extends StatelessWidget {
   const _SearchBar({
     Key? key,
