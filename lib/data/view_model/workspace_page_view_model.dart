@@ -11,6 +11,9 @@ import 'package:qtank_mobile/data/model/workspace_model.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 
 // 🌎 Project imports:
+import '../model/content_model.dart';
+import '../model/genre_model.dart';
+import '../model/room_model.dart';
 import '../utility/logger/logger.dart';
 
 final workspacePageViewModelProvider = ChangeNotifierProvider.autoDispose(
@@ -121,4 +124,45 @@ final workspaceFutureProvider = FutureProvider.autoDispose
       .get();
 
   return WorkspaceModel.fromMap(snapshot.data()!);
+});
+
+final workspaceGenreFutureProvider = FutureProvider.autoDispose
+    .family<List<GenreModel>, String>((ref, workspaceId) async {
+  final snapshot = await FirebaseFirestore.instance
+      .collection('workspaces')
+      .doc(workspaceId)
+      .collection('genres')
+      .get();
+
+  return snapshot.docs.map((data) {
+    return GenreModel.fromMap(data.data());
+  }).toList();
+});
+
+final workspaceRoomFutureProvider = FutureProvider.autoDispose
+    .family<List<RoomModel>, String>((ref, genreId) async {
+  final snapshot = await FirebaseFirestore.instance
+      .collection('workspaces')
+      .doc()
+      .collection('rooms')
+      .where('genreId', isEqualTo: genreId)
+      .get();
+
+  return snapshot.docs.map((data) {
+    return RoomModel.fromMap(data.data());
+  }).toList();
+});
+
+final workspaceContentFutureProvider = FutureProvider.autoDispose
+    .family<List<ContentModel>, String>((ref, roomId) async {
+  final snapshot = await FirebaseFirestore.instance
+      .collection('workspaces')
+      .doc()
+      .collection('contents')
+      .where('roomId', isEqualTo: roomId)
+      .get();
+
+  return snapshot.docs.map((data) {
+    return ContentModel.fromMap(data.data());
+  }).toList();
 });
