@@ -29,6 +29,7 @@ class WorkspacePageViewModel extends ChangeNotifier {
   String newWorkspaceName = '';
   bool isConnecting = true;
   String selectedWorkspaceId = '';
+  bool fetching = false;
 
   /// stateを更新するメソッド
   // ワークスペース名を更新
@@ -126,24 +127,27 @@ final workspaceFutureProvider = FutureProvider.autoDispose
   return WorkspaceModel.fromMap(snapshot.data()!);
 });
 
-final workspaceGenreFutureProvider = FutureProvider.autoDispose
-    .family<List<GenreModel>, String>((ref, workspaceId) async {
-  final snapshot = await FirebaseFirestore.instance
+final workspaceGenreFutureProvider =
+    FutureProvider.family<List<GenreModel>, String>((ref, workspaceId) async {
+  final genreSnapshot = await FirebaseFirestore.instance
       .collection('workspaces')
       .doc(workspaceId)
       .collection('genres')
       .get();
 
-  return snapshot.docs.map((data) {
+  return genreSnapshot.docs.map((data) {
     return GenreModel.fromMap(data.data());
   }).toList();
 });
 
-final workspaceRoomFutureProvider = FutureProvider.autoDispose
-    .family<List<RoomModel>, String>((ref, genreId) async {
+final workspaceRoomFutureProvider =
+    FutureProvider.family<List<RoomModel>, List<String>>((ref, info) async {
+  final workspaceId = info[0];
+  final genreId = info[1];
+
   final snapshot = await FirebaseFirestore.instance
       .collection('workspaces')
-      .doc()
+      .doc(workspaceId)
       .collection('rooms')
       .where('genreId', isEqualTo: genreId)
       .get();
@@ -154,10 +158,12 @@ final workspaceRoomFutureProvider = FutureProvider.autoDispose
 });
 
 final workspaceContentFutureProvider = FutureProvider.autoDispose
-    .family<List<ContentModel>, String>((ref, roomId) async {
+    .family<List<ContentModel>, List<String>>((ref, info) async {
+  final workspaceId = info[0];
+  final roomId = info[1];
   final snapshot = await FirebaseFirestore.instance
       .collection('workspaces')
-      .doc()
+      .doc(workspaceId)
       .collection('contents')
       .where('roomId', isEqualTo: roomId)
       .get();

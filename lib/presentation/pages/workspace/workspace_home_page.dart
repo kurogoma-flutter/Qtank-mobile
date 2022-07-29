@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qtank_mobile/data/model/genre_model.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import '../../../presentation/style/style.dart';
@@ -148,45 +149,7 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                         style: QTankTextStyle.subtitle,
                       ),
                     ),
-                    Expanded(
-                      child: Consumer(builder: (context, ref, child) {
-                        final future = ref
-                            .watch(workspaceGenreFutureProvider(workspaceId));
-                        return ListView(
-                          children: <Widget>[
-                            future.when(
-                              data: ((data) {
-                                return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: data.length,
-                                    itemBuilder: (context, index) {
-                                      return ExpansionTile(
-                                        initiallyExpanded:
-                                            index == 0, // １つ目だけオープンにする
-                                        iconColor: QTankColor.greyWhite,
-                                        title: _QTankRoomGenreTitle(
-                                          genreName: data[index].genreName,
-                                          genreId: data[index].genreId,
-                                          icon: data[index].icon,
-                                        ),
-                                        children: const [
-                                          // TODO: futureにする
-                                          _QTankRoomListItem(),
-                                        ],
-                                      );
-                                    });
-                              }),
-                              error: ((error, stackTrace) {
-                                return const Center(
-                                  child: Text('エラーが発生しました。'),
-                                );
-                              }),
-                              loading: () => const SizedBox(),
-                            )
-                          ],
-                        );
-                      }),
-                    ),
+                    _GenreAndRoomList(workspaceId: workspaceId),
                   ],
                 ),
               ),
@@ -194,6 +157,102 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _GenreAndRoomList extends StatelessWidget {
+  const _GenreAndRoomList({
+    Key? key,
+    required this.workspaceId,
+  }) : super(key: key);
+
+  final String workspaceId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Consumer(builder: (context, ref, child) {
+        final future = ref.watch(workspaceGenreFutureProvider(workspaceId));
+        return ListView(
+          children: <Widget>[
+            future.when(
+              data: ((genre) {
+                return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: genre.length,
+                    itemBuilder: (context, index) {
+                      return _GenreAndRoomExpansionTile(
+                        genre: genre[index],
+                        index: index,
+                        ref: ref,
+                      );
+                    });
+              }),
+              error: ((error, stackTrace) {
+                return const Center(
+                  child: Text('エラーが発生しました。'),
+                );
+              }),
+              loading: () => const SizedBox(),
+            )
+          ],
+        );
+      }),
+    );
+  }
+}
+
+class _GenreAndRoomExpansionTile extends StatelessWidget {
+  const _GenreAndRoomExpansionTile({
+    Key? key,
+    required this.ref,
+    required this.genre,
+    required this.index,
+  }) : super(key: key);
+
+  final WidgetRef ref;
+  final GenreModel genre;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final roomFuture = ref
+        .watch(workspaceRoomFutureProvider([genre.genreId, genre.workspaceId]));
+    return ExpansionTile(
+      initiallyExpanded: index == 0, // １つ目だけオープンにする
+      iconColor: QTankColor.greyWhite,
+      title: _QTankRoomGenreTitle(
+        genreName: genre.genreName,
+        genreId: genre.genreId,
+        icon: genre.icon,
+      ),
+      children: [
+        roomFuture.when(data: (room) {
+          return SizedBox(
+            height: 50.0 * room.length,
+            child: ListView.builder(
+              itemCount: room.length,
+              itemBuilder: ((context, index) {
+                return SizedBox(
+                  width: 200,
+                  child: _QTankRoomListItem(
+                    roomName: room[index].name,
+                    roomId: room[index].roomId,
+                  ),
+                );
+              }),
+            ),
+          );
+        }, error: ((error, stackTrace) {
+          logger.w('Future Error');
+          return const Center(
+            child: Text('エラーが発生しました。'),
+          );
+        }), loading: () {
+          return const SizedBox();
+        }),
+      ],
     );
   }
 }
@@ -231,17 +290,22 @@ class _QTankRoomGenreTitle extends StatelessWidget {
 class _QTankRoomListItem extends StatelessWidget {
   const _QTankRoomListItem({
     Key? key,
+    required this.roomName,
+    required this.roomId,
   }) : super(key: key);
+
+  final String roomName;
+  final String roomId;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: Row(
-        children: const [
-          Text('#', style: QTankTextStyle.subtitle),
-          SizedBox(width: 6),
-          Text('ルーム名', style: QTankTextStyle.subtitle),
+        children: [
+          const Text('#', style: QTankTextStyle.subtitle),
+          const SizedBox(width: 6),
+          Text(roomName, style: QTankTextStyle.subtitle),
         ],
       ),
     );
