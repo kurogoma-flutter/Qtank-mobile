@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/presentation/pages/auth/auth_gate_page.dart';
 import 'package:qtank_mobile/presentation/pages/auth/create_user_page.dart';
 import 'package:qtank_mobile/presentation/pages/auth/login_user_page.dart';
+import 'package:qtank_mobile/presentation/pages/genre/genre_list_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/about_this_app_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/app_term_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/inquiry_page.dart';
@@ -124,6 +125,19 @@ final GoRouter router = GoRouter(
       path: '/auth/create',
       builder: (BuildContext context, GoRouterState state) =>
           const CreateUserPage(),
+    ),
+    GoRoute(
+      path: '/genre',
+      builder: (BuildContext context, GoRouterState state) => const SizedBox(),
+      routes: [
+        GoRoute(
+          path: 'list/:workspaceId',
+          builder: (BuildContext context, GoRouterState state) {
+            String workspaceId = state.params['workspaceId']!;
+            return GenreListPage(workspaceId: workspaceId);
+          },
+        ),
+      ],
     ),
   ],
   initialLocation: '/',
