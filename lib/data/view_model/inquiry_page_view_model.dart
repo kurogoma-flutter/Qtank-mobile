@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 // 📦 Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qtank_mobile/data/model/inquiry_model.dart';
+import 'package:qtank_mobile/data/model/qa_list_model.dart';
 
 // 🌎 Project imports:
 
@@ -66,3 +67,12 @@ class InquiryPageViewModel extends ChangeNotifier {
         .then((value) => value.data()!['name']);
   }
 }
+
+final qaListFutureProvider = FutureProvider<List<QaListModel>>(
+  (ref) => FirebaseFirestore.instance
+      .collection('qa_list')
+      .orderBy('question', descending: true)
+      .get()
+      .then((value) =>
+          value.docs.map((e) => QaListModel.fromMap(e.data())).toList()),
+);
