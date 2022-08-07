@@ -56,7 +56,10 @@ class QTankListViewPage extends ConsumerWidget {
                   itemBuilder: (BuildContext context, int index) {
                     if (data.docs.isEmpty) {
                       return const Center(
-                        child: Text('所属しているワークスペースはありません'),
+                        child: Text(
+                          '所属しているワークスペースはありません',
+                          style: QTankTextStyle.subtitle,
+                        ),
                       );
                     }
                     return GestureDetector(
