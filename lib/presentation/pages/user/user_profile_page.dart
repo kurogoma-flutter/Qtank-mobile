@@ -258,7 +258,8 @@ class _BottomSheet extends StatelessWidget {
                     context: context,
                     builder: (_) {
                       return const ConfirmationDialog(
-                        dialogMessage: 'ワークスペースから退出してもよろしいですか？',
+                        dialogMessage:
+                            '退出した場合、招待を受けないと再加入できません。\nワークスペースから退出してもよろしいですか？',
                       );
                     },
                   );
