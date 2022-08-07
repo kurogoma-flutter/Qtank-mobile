@@ -170,3 +170,12 @@ final workspaceContentFutureProvider = FutureProvider.autoDispose
     return ContentModel.fromMap(data.data());
   }).toList();
 });
+
+final fetchWorkSpaceImageFromId =
+    FutureProvider.autoDispose.family<String, String>((ref, workspaceId) async {
+  final snapshot = await FirebaseFirestore.instance
+      .collection('workspaces')
+      .doc(workspaceId)
+      .get();
+  return snapshot.get('imageUrl');
+});

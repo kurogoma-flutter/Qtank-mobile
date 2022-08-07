@@ -7,7 +7,7 @@ import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import '../../../presentation/style/style.dart';
 import '../../style/color.dart';
 
-class QTankWorkSpaceHomePage extends StatelessWidget {
+class QTankWorkSpaceHomePage extends ConsumerWidget {
   const QTankWorkSpaceHomePage({
     Key? key,
     required this.workspaceId,
@@ -18,7 +18,8 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
   final String workspaceName;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final imageFuture = ref.watch(fetchWorkSpaceImageFromId(workspaceId));
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -31,13 +32,15 @@ class QTankWorkSpaceHomePage extends StatelessWidget {
                 height: 36,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(5),
-                  child: Image.network(
-                    'https://user-images.githubusercontent.com/67848399/179694155-db2690b3-8dc3-4c54-84f8-be156c3e0d4b.png',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      logger.e(error, stackTrace);
-                      return Image.asset('assets/tank-only.png');
-                    },
+                  child: imageFuture.when(
+                    data: (data) => Image.network(
+                      data,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) =>
+                          Image.asset('assets/tank-only.png'),
+                    ),
+                    error: (_, __) => Image.asset('assets/tank-only.png'),
+                    loading: () => Image.asset('assets/tank-only.png'),
                   ),
                 ),
               ),
