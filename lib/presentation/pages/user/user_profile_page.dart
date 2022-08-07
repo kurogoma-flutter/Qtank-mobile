@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 
-import '../../../data/utility/logger/logger.dart';
 import '../../../data/view_model/auth_page_view_model.dart';
 import '../../../data/view_model/user_page_view_model.dart';
 import '../../style/style.dart';
@@ -183,7 +182,7 @@ class _BottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 180,
+      height: 120,
       child: Container(
         decoration: const BoxDecoration(
           color: QTankColor.white,
@@ -228,45 +227,6 @@ class _BottomSheet extends StatelessWidget {
                     Navigator.of(context).pop();
                     // ignore: use_build_context_synchronously
                     viewModel.signOut(context);
-                  }
-                },
-              ),
-            ),
-            const Divider(color: QTankColor.greyWhite, height: 0.2),
-            Padding(
-              padding: const EdgeInsets.only(left: 12),
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 35,
-                  padding: const EdgeInsets.only(left: 12),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.delete_forever_rounded,
-                        color: QTankColor.red,
-                      ),
-                      SizedBox(width: 10),
-                      Text('ワークスペースから退出する',
-                          style: QTankTextStyle.alertTextBold),
-                    ],
-                  ),
-                ),
-                onTap: () async {
-                  var dialogResult = await showDialog<bool>(
-                    context: context,
-                    builder: (_) {
-                      return const ConfirmationDialog(
-                        dialogMessage:
-                            '退出した場合、招待を受けないと再加入できません。\nワークスペースから退出してもよろしいですか？',
-                      );
-                    },
-                  );
-                  if (dialogResult == true) {
-                    // ignore: use_build_context_synchronously
-                    Navigator.of(context).pop();
-                    logger.i('退出処理');
                   }
                 },
               ),
