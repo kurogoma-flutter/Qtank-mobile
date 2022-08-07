@@ -33,6 +33,7 @@ class AuthPageViewModel extends ChangeNotifier {
   String userImagePath = '';
   File? file;
   final picker = ImagePicker();
+  UserModel userInfo = UserModel.initialData();
 
   /// 状態を更新するメソッド
   void setUserName(value) {
@@ -75,7 +76,7 @@ class AuthPageViewModel extends ChangeNotifier {
         password: password,
       );
 
-      // ログインできたらステート破棄（リセット）
+      // ログインできたら入力操作系をクリアする
       clearUserInfo();
 
       // ignore: use_build_context_synchronously
@@ -127,7 +128,8 @@ class AuthPageViewModel extends ChangeNotifier {
   Future<void> signOut(BuildContext context) async {
     try {
       await FirebaseAuth.instance.signOut();
-
+      // 管理しているユーザー情報の破棄
+      removeCurrentUserInfo();
       // ignore: use_build_context_synchronously
       context.go('/');
     } on FirebaseAuthException catch (e) {
@@ -247,7 +249,7 @@ class AuthPageViewModel extends ChangeNotifier {
   }
 
   // パスワード再設定メール
-  Future sendPasswordResetEmail(String email, BuildContext context) async {
+  Future sendPasswordResetEmail(BuildContext context, String email) async {
     logger.i('パスワード再設定通知開始');
     try {
       // メールアドレスがない場合、自動取得
@@ -256,9 +258,7 @@ class AuthPageViewModel extends ChangeNotifier {
       }
 
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      // 成功したダイアログ
-      return const CustomAlertDialog(
-          dialogMessage: '登録したメールアドレスに再設定用のメールを送信しました。');
+      logger.i('パスワード再設定通知完了');
     } on FirebaseAuthException {
       logger.w('再設定通知の送信に失敗しました。');
       // 失敗したダイアログ
@@ -345,5 +345,14 @@ class AuthPageViewModel extends ChangeNotifier {
     } catch (e) {
       logger.w(e);
     }
+  }
+
+  void setCurrentUserInfo(UserModel user) {
+    userInfo = user;
+  }
+
+  void removeCurrentUserInfo() {
+    userInfo = UserModel.initialData();
+    notifyListeners();
   }
 }

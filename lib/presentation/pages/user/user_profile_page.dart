@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qtank_mobile/data/model/user_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 
 import '../../../data/view_model/auth_page_view_model.dart';
@@ -13,7 +14,10 @@ class UserProfilePage extends ConsumerWidget {
     Key? key,
   }) : super(key: key);
 
-  void displayBottomSheet(BuildContext context, AuthPageViewModel viewModel) {
+  void displayBottomSheet(
+    BuildContext context,
+    AuthPageViewModel viewModel,
+  ) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -46,7 +50,10 @@ class UserProfilePage extends ConsumerWidget {
             context.go('/auth/login');
           }
 
-          final userData = user.data();
+          final userData = user.data()!;
+          // ユーザー情報をセットする
+          viewModel.setCurrentUserInfo(UserModel.fromMap(userData));
+
           return SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
@@ -59,7 +66,7 @@ class UserProfilePage extends ConsumerWidget {
                   backgroundImage: AssetImage('assets/dammy_icon_3.png'),
                 ),
                 Text(
-                  userData!['name'] ?? '未設定',
+                  userData['name'] ?? '未設定',
                   style: QTankTextStyle.largeTitle,
                 ),
                 _TitleLabelWithBoldText(
@@ -256,15 +263,16 @@ class _BottomSheet extends StatelessWidget {
                     context: context,
                     builder: (_) {
                       return const ConfirmationDialog(
-                        dialogMessage: 'パスワードの再設定を行いますか？',
+                        dialogMessage:
+                            'パスワードの再設定を行いますか？\n「はい」を押すと再設定メールを送信します。',
                       );
                     },
                   );
                   if (dialogResult == true) {
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
-                    // ignore: use_build_context_synchronously
-                    viewModel.sendPasswordResetEmail('', context);
+                    await viewModel.sendPasswordResetEmail(
+                        context, viewModel.userInfo.email);
                   }
                 },
               ),
