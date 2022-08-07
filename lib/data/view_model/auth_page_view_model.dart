@@ -300,7 +300,7 @@ class AuthPageViewModel extends ChangeNotifier {
   /// ユーザーアイコン系の処理
   /// --------------------------------------------------
 
-  /// ギャラリーから画像を取得
+  // ギャラリーから画像を取得
   Future getImageFromGallery() async {
     final image = await picker.pickImage(source: ImageSource.gallery);
     // 空の場合終了
