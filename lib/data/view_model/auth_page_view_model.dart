@@ -249,7 +249,7 @@ class AuthPageViewModel extends ChangeNotifier {
   }
 
   // パスワード再設定メール
-  Future sendPasswordResetEmail(BuildContext context, String email) async {
+  Future sendPasswordResetEmail(String email) async {
     logger.i('パスワード再設定通知開始');
     try {
       // メールアドレスがない場合、自動取得

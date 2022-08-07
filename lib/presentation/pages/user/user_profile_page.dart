@@ -271,8 +271,8 @@ class _BottomSheet extends StatelessWidget {
                   if (dialogResult == true) {
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
-                    await viewModel.sendPasswordResetEmail(
-                        context, viewModel.userInfo.email);
+                    await viewModel
+                        .sendPasswordResetEmail(viewModel.userInfo.email);
                   }
                 },
               ),
