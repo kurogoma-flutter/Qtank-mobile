@@ -11,6 +11,8 @@ import 'package:qtank_mobile/presentation/pages/legal/inquiry_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/privacy_polict_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/qa_list_page.dart';
 import 'package:qtank_mobile/presentation/pages/legal/specific_trade_law_page.dart';
+import 'package:qtank_mobile/presentation/pages/notice/notice_detail_page.dart';
+import 'package:qtank_mobile/presentation/pages/notice/notice_list_page.dart';
 import 'package:qtank_mobile/presentation/pages/workspace/workspace_member_list.dart';
 import 'package:qtank_mobile/presentation/pages/workspace/workspace_setting_page.dart';
 
@@ -135,6 +137,20 @@ final GoRouter router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             String workspaceId = state.params['workspaceId']!;
             return GenreListPage(workspaceId: workspaceId);
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '/notice',
+      builder: (BuildContext context, GoRouterState state) =>
+          const NoticeListPage(),
+      routes: [
+        GoRoute(
+          path: 'detail/:noticeId',
+          builder: (BuildContext context, GoRouterState state) {
+            String noticeId = state.params['noticeId']!;
+            return NoticeDetailPage(noticeId: noticeId);
           },
         ),
       ],

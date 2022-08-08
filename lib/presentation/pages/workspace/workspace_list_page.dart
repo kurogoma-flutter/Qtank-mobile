@@ -19,6 +19,8 @@ class QTankListViewPage extends ConsumerWidget {
 
     final futureProvider = ref.watch(workspaceListFutureProvider);
 
+    bool isNotice = true;
+
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -26,17 +28,32 @@ class QTankListViewPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Text('ワークスペース'),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              child: SizedBox(
-                width: 40,
-                height: 40,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset('assets/dammy_icon_3.png'),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () => context.push('/notice'),
+                  icon: Icon(
+                    isNotice
+                        ? Icons.notifications_active_rounded
+                        : Icons.notifications_rounded,
+                    color: isNotice ? QTankColor.orange : QTankColor.white,
+                    size: 28,
+                  ),
                 ),
-              ),
-              onTap: () => context.push('/user_profile'),
+                const SizedBox(width: 4),
+                GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  child: SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset('assets/dammy_icon_3.png'),
+                    ),
+                  ),
+                  onTap: () => context.push('/user_profile'),
+                ),
+              ],
             ),
           ],
         ),
