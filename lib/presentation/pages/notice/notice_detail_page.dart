@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
-
 import '../../style/style.dart';
 
 class NoticeDetailPage extends ConsumerWidget {
