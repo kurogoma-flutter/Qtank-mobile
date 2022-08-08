@@ -13,9 +13,9 @@ class NoticeListPage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text(
           '通知一覧',
-          style: QTankTextStyle.titleBlack,
+          style: QTankTextStyle.title,
         ),
-        backgroundColor: Colors.grey,
+        backgroundColor: QTankColor.grey,
         centerTitle: true,
         elevation: 0,
       ),
