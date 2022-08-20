@@ -16,25 +16,25 @@ class SimpleErrorPage extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
       ),
-      body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'エラーが発生しました。\nアプリを再起動するか管理者に問い合わせてください。',
-                style: QTankTextStyle.alertTextBold,
-              ),
-              const SizedBox(height: 40),
-              TextButton(
-                onPressed: () => context.go('/'),
-                child: const Text('トップへ戻る'),
-              ),
-            ],
-          )),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: SizedBox.expand(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              'エラーが発生しました。\nアプリを再起動するか管理者に問い合わせてください。',
+              style: QTankTextStyle.alertTextBold,
+            ),
+            const SizedBox(height: 40),
+            TextButton(
+              onPressed: () => context.go('/'),
+              child: const Text('トップへ戻る'),
+            ),
+          ],
+        )),
+      ),
     );
   }
 }

@@ -15,10 +15,8 @@ class SpecificTradeLawPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: const Center(
+      body: const SizedBox.expand(
+        child: Center(
           child: Text('特定商取引法に基づく表示'),
         ),
       ),

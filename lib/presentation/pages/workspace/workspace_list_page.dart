@@ -61,9 +61,7 @@ class QTankListViewPage extends ConsumerWidget {
         elevation: 0,
         centerTitle: false,
       ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+      body: SizedBox.expand(
         child: Column(
           children: [
             Expanded(

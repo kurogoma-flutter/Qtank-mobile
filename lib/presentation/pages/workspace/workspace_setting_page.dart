@@ -31,13 +31,13 @@ class WorkSpaceSettingPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: QTankColor.grey,
       ),
-      body: Container(
+      body: Padding(
         padding: EdgeInsets.symmetric(
           vertical: size.height * 0.05,
         ),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: _WorkSpaceContentBody(workspaceId: workspaceId),
+        child: SizedBox.expand(
+          child: _WorkSpaceContentBody(workspaceId: workspaceId),
+        ),
       ),
     );
   }

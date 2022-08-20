@@ -14,9 +14,7 @@ class InquiryCompletePage extends StatelessWidget {
         backgroundColor: QTankColor.grey,
         title: const Text('お問い合わせ完了'),
       ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+      body: SizedBox.expand(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

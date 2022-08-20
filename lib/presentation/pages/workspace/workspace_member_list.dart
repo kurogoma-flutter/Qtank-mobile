@@ -14,11 +14,9 @@ class WorkSpaceMemberListPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: QTankColor.grey,
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: const Center(child: Text('メンバー管理')),
+      body: const SingleChildScrollView(
+        child: SizedBox.expand(
+          child: Center(child: Text('メンバー管理')),
         ),
       ),
     );

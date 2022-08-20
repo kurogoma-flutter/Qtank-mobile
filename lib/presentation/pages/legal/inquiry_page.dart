@@ -23,9 +23,7 @@ class InquiryPage extends ConsumerWidget {
         elevation: 0,
       ),
       body: viewModel.isSending
-          ? SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+          ? SizedBox.expand(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [

@@ -54,9 +54,7 @@ class UserProfilePage extends ConsumerWidget {
           // ユーザー情報をセットする
           viewModel.setCurrentUserInfo(UserModel.fromMap(userData));
 
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          return SizedBox.expand(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,

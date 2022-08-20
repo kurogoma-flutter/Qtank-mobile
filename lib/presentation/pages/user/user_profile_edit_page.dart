@@ -32,9 +32,7 @@ class UserProfileEditPage extends ConsumerWidget {
           }
 
           final userData = user.data()!;
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+          return SizedBox.expand(
             child: SingleChildScrollView(
               child: Column(
                 children: [
