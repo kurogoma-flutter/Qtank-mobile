@@ -13,7 +13,7 @@ class LegalTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8, top: 16),
+      padding: const EdgeInsets.only(left: 8, top: 24),
       child: Text(
         text,
         style: QTankTextStyle.title,
@@ -34,7 +34,7 @@ class LegalSubTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16, top: 8),
+      padding: const EdgeInsets.only(left: 16, top: 16),
       child: Text(
         text,
         style: QTankTextStyle.miniTitle,
@@ -55,7 +55,7 @@ class LegalText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 24, top: 8),
+      padding: const EdgeInsets.only(left: 32, top: 8),
       child: Text(
         text,
         style: QTankTextStyle.subtitle,

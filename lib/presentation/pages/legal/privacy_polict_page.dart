@@ -50,6 +50,7 @@ class PrivacyPolicyPage extends StatelessWidget {
               LegalText(
                   text:
                       '当社は、利用者の個人情報を取得した後、当社が利用者に対して提供するサービス（以下「本サービス」といいます。）において利用することができるものとします。'),
+              SizedBox(height: 60),
             ],
           ),
         ),
