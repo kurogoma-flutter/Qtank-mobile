@@ -98,7 +98,7 @@ class _PasswordField extends StatelessWidget {
             obscureText: true,
             style: QTankTextStyle.subtitle,
             decoration: InputDecoration(
-              hintText: 'passeord',
+              hintText: 'password',
               hintStyle: QTankTextStyle.subtitle,
               enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: QTankColor.orange),
@@ -147,7 +147,7 @@ class _LoginButton extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
-        primary: QTankColor.orange,
+        backgroundColor: QTankColor.orange,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),

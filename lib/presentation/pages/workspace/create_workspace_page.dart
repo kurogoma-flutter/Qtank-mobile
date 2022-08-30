@@ -99,8 +99,8 @@ class CreateWorkSpacePage extends ConsumerWidget {
                     const SizedBox(height: 50),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: QTankColor.orange,
-                        onPrimary: QTankColor.black,
+                        backgroundColor: QTankColor.orange,
+                        foregroundColor: QTankColor.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
