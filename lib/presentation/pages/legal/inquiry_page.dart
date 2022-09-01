@@ -153,7 +153,7 @@ class InquiryPage extends ConsumerWidget {
                         },
                         style: OutlinedButton.styleFrom(
                             elevation: 3,
-                            foregroundColor: Colors.black,
+                            primary: Colors.black,
                             shape: const StadiumBorder(),
                             side: const BorderSide(color: QTankColor.orange),
                             backgroundColor: QTankColor.orange),

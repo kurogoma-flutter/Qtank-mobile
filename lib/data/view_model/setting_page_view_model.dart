@@ -6,7 +6,6 @@ import 'package:qtank_mobile/constants/enum.dart';
 import 'package:qtank_mobile/data/service/app_setting_service.dart';
 
 // 🌎 Project imports:
-import '../../constants/enum.dart';
 import '../model/app_setting_model.dart';
 
 final settingPageViewModelProvider =

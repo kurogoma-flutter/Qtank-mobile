@@ -14,7 +14,6 @@ import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import '../model/content_model.dart';
 import '../model/genre_model.dart';
 import '../model/room_model.dart';
-import '../utility/logger/logger.dart';
 
 final workspacePageViewModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) {

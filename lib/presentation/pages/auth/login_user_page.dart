@@ -147,7 +147,7 @@ class _LoginButton extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: QTankColor.orange,
+        primary: QTankColor.orange,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),

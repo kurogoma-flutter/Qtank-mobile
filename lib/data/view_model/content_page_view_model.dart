@@ -9,7 +9,6 @@ import 'package:qtank_mobile/data/model/room_model.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 
 // 🌎 Project imports:
-import '../utility/logger/logger.dart';
 
 final contentPageViewModelProvider = ChangeNotifierProvider.autoDispose(
   (ref) {

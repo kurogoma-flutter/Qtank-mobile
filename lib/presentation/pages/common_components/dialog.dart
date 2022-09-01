@@ -29,8 +29,8 @@ class ConfirmationDialog extends StatelessWidget {
                     Navigator.of(context).pop(false);
                   },
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: QTankColor.greyWhite,
+                    onPrimary: Colors.white,
+                    primary: QTankColor.greyWhite,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),
@@ -45,8 +45,8 @@ class ConfirmationDialog extends StatelessWidget {
                     Navigator.of(context).pop(true);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: QTankColor.lightBlue,
-                    foregroundColor: Colors.white,
+                    primary: QTankColor.lightBlue,
+                    onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -92,8 +92,8 @@ class CustomAlertDialog extends StatelessWidget {
                     Navigator.of(context).pop(true);
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: QTankColor.lightBlue,
-                    foregroundColor: Colors.white,
+                    primary: QTankColor.lightBlue,
+                    onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
