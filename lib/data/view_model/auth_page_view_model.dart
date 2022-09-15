@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:qtank_mobile/data/model/user_model.dart';
+import 'package:qtank_mobile/data/utility/exception.dart';
 
 // 🌎 Project imports:
 import '../../presentation/pages/common_components/dialog.dart';
@@ -83,36 +84,7 @@ class AuthPageViewModel extends ChangeNotifier {
       return context.go('/workspace/list');
     } on FirebaseAuthException catch (e) {
       // ログインに失敗した場合
-      var message = '';
-      // エラーコード別処理
-      switch (e.code) {
-        case 'invalid-email':
-          message = 'メールアドレスが不正です。';
-          break;
-        case 'wrong-password':
-          message = 'パスワードが違います。';
-          break;
-        case 'user-disabled':
-          message = '指定されたユーザーは無効です。';
-          break;
-        case 'user-not-found':
-          message = '指定されたユーザーは存在しません。';
-          break;
-        case 'operation-not-allowed':
-          message = '指定されたユーザーはこの操作を許可していません。';
-          break;
-        case 'too-many-requests':
-          message = '複数回リクエストが発生しました。';
-          break;
-        case 'email-already-exists':
-          message = '指定されたメールアドレスは既に使用されています。';
-          break;
-        case 'internal-error':
-          message = '内部処理エラーが発生しました。';
-          break;
-        default:
-          message = '予期せぬエラーが発生しました。';
-      }
+      final message = QTankException().firebaseException(e.code);
 
       logger.w(message);
       showDialog(
@@ -158,40 +130,8 @@ class AuthPageViewModel extends ChangeNotifier {
       loginWithEmail(context);
       return;
     } on FirebaseAuthException catch (e) {
-      // TODO(Kurogoma939): エラーハンドリング対応
       // ログインに失敗した場合
-      var message = '';
-      // エラーコード別処理
-      switch (e.code) {
-        case 'invalid-email':
-          message = 'メールアドレスが不正です。';
-          break;
-        case 'wrong-password':
-          message = 'パスワードが違います。';
-          break;
-        case 'user-disabled':
-          message = '指定されたユーザーは無効です。';
-          break;
-        case 'user-not-found':
-          message = '指定されたユーザーは存在しません。';
-          break;
-        case 'operation-not-allowed':
-          message = '指定されたユーザーはこの操作を許可していません。';
-          break;
-        case 'too-many-requests':
-          message = '複数回リクエストが発生しました。';
-          break;
-        case 'email-already-exists':
-          message = '指定されたメールアドレスは既に使用されています。';
-          break;
-        case 'internal-error':
-          message = '内部処理エラーが発生しました。';
-          break;
-        default:
-          message = '予期せぬエラーが発生しました。';
-      }
-
-      logger.w(message);
+      final message = QTankException().firebaseException(e.code);
       showDialog(
         context: context,
         builder: (context) => CustomAlertDialog(

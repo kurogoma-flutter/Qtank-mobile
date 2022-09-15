@@ -34,7 +34,9 @@ class QTankListViewPage extends ConsumerWidget {
                   icon: Icon(
                     isNotice
                         ? Icons.notifications_active_rounded
+                        // ignore: dead_code
                         : Icons.notifications_rounded,
+                    // ignore: dead_code
                     color: isNotice ? QTankColor.orange : QTankColor.white,
                     size: 28,
                   ),
@@ -108,6 +110,7 @@ class _QTankListItem extends ConsumerWidget {
     required this.workspaceInfo,
   }) : super(key: key);
 
+  // TODO(Kurogoma): モデル設定
   final workspaceInfo;
 
   @override
