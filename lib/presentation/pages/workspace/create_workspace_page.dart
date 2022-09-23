@@ -28,7 +28,7 @@ class CreateWorkSpacePage extends ConsumerWidget {
             horizontal: 20,
             vertical: MediaQuery.of(context).size.height * 0.2,
           ),
-          child: SizedBox.expand(
+          child: SizedBox(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
