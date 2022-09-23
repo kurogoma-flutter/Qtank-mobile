@@ -28,7 +28,6 @@ class SettingPageViewModel extends ChangeNotifier {
   /// 状態を表す変数
   bool ableToNoticeAboutNewMessage = true;
   bool ableToNoticeAboutNewMember = true;
-  // TODO: デフォルトのEnumにする
   AppThemeMode themeMode = AppThemeMode.dark;
 
   initialize() {

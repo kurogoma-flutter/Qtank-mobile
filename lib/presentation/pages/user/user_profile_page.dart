@@ -106,8 +106,8 @@ class _EditProfileButton extends StatelessWidget {
         context.push('/user_profile/edit');
       },
       style: ElevatedButton.styleFrom(
-        primary: QTankColor.orange,
-        onPrimary: QTankColor.white,
+        backgroundColor: QTankColor.orange,
+        foregroundColor: QTankColor.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),

@@ -253,7 +253,7 @@ class _WorkSpaceSubmitButton extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
-        primary: QTankColor.orange,
+        backgroundColor: QTankColor.orange,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
