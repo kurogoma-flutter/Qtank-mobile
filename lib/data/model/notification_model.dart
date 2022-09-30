@@ -2,8 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
-class InquiryModel {
-  InquiryModel({
+class NotificationModel {
+  NotificationModel({
     required this.notificationId,
     required this.targetUserId,
     required this.summary,
@@ -13,7 +13,8 @@ class InquiryModel {
     required this.createdAt,
   });
 
-  factory InquiryModel.fromMap(Map<String, dynamic> data) => InquiryModel(
+  factory NotificationModel.fromMap(Map<String, dynamic> data) =>
+      NotificationModel(
         notificationId: data['notificationId'] as String,
         targetUserId: data['targetUserId'] as String,
         summary: data['summary'] as String,
@@ -23,7 +24,7 @@ class InquiryModel {
         createdAt: data['createdAt'] as Timestamp,
       );
 
-  factory InquiryModel.initialData() => InquiryModel(
+  factory NotificationModel.initialData() => NotificationModel(
         notificationId: const Uuid().v4(),
         targetUserId: '',
         summary: '',
