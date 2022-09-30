@@ -1,7 +1,57 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:qtank_mobile/data/model/notification_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
+
+final dummyNotificationModelList = <NotificationModel>[
+  NotificationModel(
+    notificationId: 'xxxx001',
+    targetUserId: 'user0001',
+    summary: '通知概要通知概要',
+    notificationTitle: '通知タイトル通知タイトル',
+    notificationDetail: '通知本文通知本文',
+    isRead: true,
+    createdAt: Timestamp.now(),
+  ),
+  NotificationModel(
+    notificationId: 'xxxx002',
+    targetUserId: 'user0001',
+    summary: '新規リリース通知について',
+    notificationTitle: 'りリースしたよ！',
+    notificationDetail: '機能概要機能概要',
+    isRead: true,
+    createdAt: Timestamp.now(),
+  ),
+  NotificationModel(
+    notificationId: 'xxxx003',
+    targetUserId: 'user0001',
+    summary: 'ワークスペースにメンバーが参加しました',
+    notificationTitle: 'ワークスペースにメンバーが参加しました',
+    notificationDetail: '〇〇さんが来た。よろしく。',
+    isRead: true,
+    createdAt: Timestamp.now(),
+  ),
+  NotificationModel(
+    notificationId: 'xxxx004',
+    targetUserId: 'user0001',
+    summary: 'アプリバグレポート',
+    notificationTitle: 'バグ報告バグ報告',
+    notificationDetail: 'バグですバグです',
+    isRead: true,
+    createdAt: Timestamp.now(),
+  ),
+  NotificationModel(
+    notificationId: 'xxxx005',
+    targetUserId: 'user0001',
+    summary: '通知概要通知概要',
+    notificationTitle: '通知タイトル通知タイトル',
+    notificationDetail: '通知本文通知本文',
+    isRead: true,
+    createdAt: Timestamp.now(),
+  ),
+];
 
 class NoticeListPage extends ConsumerWidget {
   const NoticeListPage({Key? key}) : super(key: key);
