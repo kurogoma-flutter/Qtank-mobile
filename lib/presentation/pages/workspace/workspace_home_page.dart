@@ -107,7 +107,7 @@ class QTankWorkSpaceHomePage extends ConsumerWidget {
                             ),
                             SizedBox(width: 16),
                             Text(
-                              'ジャンル・ルームを管理する',
+                              'ジャンルを管理する',
                               style: QTankTextStyle.subtitle,
                             ),
                           ],
