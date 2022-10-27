@@ -69,7 +69,40 @@ class NoticeListPage extends ConsumerWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: const Center(child: Text('通知一覧')),
+      body: dummyNotificationModelList.isNotEmpty
+          ? ListView.separated(
+              itemCount: dummyNotificationModelList.length,
+              separatorBuilder: (context, index) => const Divider(
+                color: QTankColor.white,
+                height: 0,
+              ),
+              itemBuilder: (context, index) {
+                final notificationModel = dummyNotificationModelList[index];
+                return ListTile(
+                  title: Text(
+                    notificationModel.summary,
+                    style: QTankTextStyle.miniTitle,
+                  ),
+                  subtitle: Text(
+                    notificationModel.notificationTitle,
+                    style: QTankTextStyle.planeWhiteText,
+                  ),
+                  trailing: const Icon(
+                    Icons.chevron_right,
+                    color: QTankColor.white,
+                  ),
+                  onTap: () {
+                    // TODO: 通知詳細画面へ遷移
+                  },
+                );
+              },
+            )
+          : const Center(
+              child: Text(
+                '通知はありません',
+                style: QTankTextStyle.planeWhiteText,
+              ),
+            ),
     );
   }
 }
