@@ -1,4 +1,5 @@
 // 🐦 Flutter imports:
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qtank_mobile/data/model/workspace_model.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 
@@ -28,6 +30,10 @@ class WorkspacePageViewModel extends ChangeNotifier {
   String newWorkspaceName = '';
   bool isConnecting = true;
   String selectedWorkspaceId = '';
+  XFile? selectedImageFile;
+
+  /// 各メソッド用の変数
+  final ImagePicker _picker = ImagePicker();
 
   /// stateを更新するメソッド
   // ワークスペース名を更新
@@ -88,6 +94,12 @@ class WorkspacePageViewModel extends ChangeNotifier {
     } on Exception catch (e) {
       logger.wtf(e);
     }
+  }
+
+  /// imagePickerで画像を取得する
+  Future<void> pickUpImage() async {
+    selectedImageFile = await _picker.pickImage(source: ImageSource.gallery);
+    notifyListeners();
   }
 }
 

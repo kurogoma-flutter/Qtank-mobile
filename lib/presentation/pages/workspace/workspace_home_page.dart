@@ -26,25 +26,22 @@ class QTankWorkSpaceHomePage extends ConsumerWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            InkWell(
-              child: SizedBox(
-                width: 36,
-                height: 36,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(5),
-                  child: imageFuture.when(
-                    data: (data) => Image.network(
-                      data,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) =>
-                          Image.asset('assets/tank-only.png'),
-                    ),
-                    error: (_, __) => Image.asset('assets/tank-only.png'),
-                    loading: () => Image.asset('assets/tank-only.png'),
+            SizedBox(
+              width: 36,
+              height: 36,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: imageFuture.when(
+                  data: (data) => Image.network(
+                    data,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Image.asset('assets/tank-only.png'),
                   ),
+                  error: (_, __) => Image.asset('assets/tank-only.png'),
+                  loading: () => Image.asset('assets/tank-only.png'),
                 ),
               ),
-              onTap: () => context.go('/'),
             ),
             const SizedBox(width: 12),
             Text(workspaceName, style: QTankTextStyle.title),

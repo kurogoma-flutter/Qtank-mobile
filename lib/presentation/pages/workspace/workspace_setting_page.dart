@@ -93,7 +93,7 @@ class _WorkSpaceContentBody extends ConsumerWidget {
   }
 }
 
-class _WorkSpaceIcon extends StatelessWidget {
+class _WorkSpaceIcon extends ConsumerWidget {
   const _WorkSpaceIcon({
     Key? key,
     required this.workSpaceImageUrl,
@@ -102,12 +102,13 @@ class _WorkSpaceIcon extends StatelessWidget {
   final String workSpaceImageUrl;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(workspacePageViewModelProvider);
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            logger.i('image picker');
+          onTap: () async {
+            await provider.pickUpImage();
           },
           child: SizedBox(
             width: 80,
@@ -216,7 +217,7 @@ class _WorkSpaceCompanyUrl extends StatelessWidget {
             decoration: const InputDecoration(
               hintText: 'https://qtank.com',
               hintStyle: TextStyle(
-                color: QTankColor.white,
+                color: QTankColor.greyWhite,
                 fontSize: 12,
               ),
             ),
