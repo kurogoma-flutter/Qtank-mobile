@@ -90,8 +90,39 @@ class QTankWorkSpaceHomePage extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      onTap: () {
-                        logger.i('新しいルーム追加処理');
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (_) {
+                            return SimpleDialog(
+                              title: TextFormField(
+                                decoration: const InputDecoration(
+                                  hintText: 'ルーム名を入力してください',
+                                ),
+                                autofocus: true,
+                              ),
+                              alignment: Alignment.center,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.1,
+                                vertical: 16,
+                              ),
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: QTankColor.black,
+                                    foregroundColor: QTankColor.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                  ),
+                                  child: const Text('ルームを追加'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
                       },
                     ),
                     GestureDetector(
