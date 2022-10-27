@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/data/model/notification_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
@@ -92,7 +93,9 @@ class NoticeListPage extends ConsumerWidget {
                     color: QTankColor.white,
                   ),
                   onTap: () {
-                    // TODO: 通知詳細画面へ遷移
+                    context.push(
+                      '/notice/detail/${notificationModel.notificationId}',
+                    );
                   },
                 );
               },
