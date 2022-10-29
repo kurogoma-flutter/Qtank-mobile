@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qtank_mobile/data/model/workspace_model.dart';
 import 'package:qtank_mobile/data/utility/logger/logger.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
@@ -18,8 +19,6 @@ class QTankListViewPage extends ConsumerWidget {
 
     final futureProvider = ref.watch(workspaceListFutureProvider);
 
-    bool isNotice = true;
-
     return Scaffold(
       backgroundColor: QTankColor.black,
       appBar: AppBar(
@@ -32,12 +31,14 @@ class QTankListViewPage extends ConsumerWidget {
                 IconButton(
                   onPressed: () => context.push('/notice'),
                   icon: Icon(
-                    isNotice
+                    viewModel.noticeList.isNotEmpty
                         ? Icons.notifications_active_rounded
                         // ignore: dead_code
                         : Icons.notifications_rounded,
                     // ignore: dead_code
-                    color: isNotice ? QTankColor.orange : QTankColor.white,
+                    color: viewModel.noticeList.isNotEmpty
+                        ? QTankColor.orange
+                        : QTankColor.white,
                     size: 28,
                   ),
                 ),
@@ -78,14 +79,16 @@ class QTankListViewPage extends ConsumerWidget {
                         ),
                       );
                     }
+                    WorkspaceModel workspaceModel =
+                        WorkspaceModel.fromMap(data.docs[index].data());
                     return GestureDetector(
                       behavior: HitTestBehavior.opaque,
-                      child: _QTankListItem(workspaceInfo: data.docs[index]),
+                      child: _QTankListItem(workspaceInfo: workspaceModel),
                       onTap: () {
-                        viewModel.setSelectedWorkspace(
-                            data.docs[index]['workspaceId']);
+                        viewModel
+                            .setSelectedWorkspace(workspaceModel.workspaceId);
                         final String path =
-                            '/workspace/${data.docs[index]['workspaceId']}/${data.docs[index]['name']}';
+                            '/workspace/${workspaceModel.workspaceId}/${workspaceModel.name}';
                         context.push(path);
                       },
                     );
@@ -110,8 +113,7 @@ class _QTankListItem extends ConsumerWidget {
     required this.workspaceInfo,
   }) : super(key: key);
 
-  // TODO(Kurogoma): モデル設定
-  final workspaceInfo;
+  final WorkspaceModel workspaceInfo;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -120,15 +122,18 @@ class _QTankListItem extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       child: Row(
         children: <Widget>[
-          _QTankListItemImage(imageUrl: workspaceInfo['imageUrl']),
+          _QTankListItemImage(
+            imageUrl: workspaceInfo.imageUrl ?? 'assets/tank-only.png',
+            hasNotice: viewModel.hasNotice(workspaceInfo.workspaceId),
+          ),
           _QTankListItemInfo(
-            workspaceName: workspaceInfo['name'],
-            workspaceUrl: workspaceInfo['companyUrl'],
+            workspaceName: workspaceInfo.name,
+            workspaceUrl: workspaceInfo.companyUrl ?? '',
           ),
           const Spacer(),
           _QTankListItemAction(
-            imageUrl: workspaceInfo['imageUrl'],
-            workspaceId: workspaceInfo['workspaceId'],
+            imageUrl: workspaceInfo.imageUrl ?? 'assets/tank-only.png',
+            workspaceId: workspaceInfo.workspaceId,
             viewModel: viewModel,
           ),
         ],
@@ -141,9 +146,11 @@ class _QTankListItemImage extends StatelessWidget {
   const _QTankListItemImage({
     Key? key,
     required this.imageUrl,
+    required this.hasNotice,
   }) : super(key: key);
 
   final String imageUrl;
+  final bool hasNotice;
 
   @override
   Widget build(BuildContext context) {
@@ -151,11 +158,15 @@ class _QTankListItemImage extends StatelessWidget {
       position: BadgePosition.topEnd(top: 4, end: -4),
       animationDuration: const Duration(milliseconds: 0),
       // バッジ表示用
-      badgeContent:
-          const Text('●', style: TextStyle(color: Colors.orange, fontSize: 6)),
+      badgeContent: const Text(
+        '●',
+        style: TextStyle(
+          color: Colors.orange,
+          fontSize: 6,
+        ),
+      ),
       badgeColor: Colors.orange,
-      // TODO(Kurogoma939): バッジの切り替え処理を実装する
-      showBadge: true,
+      showBadge: hasNotice,
       child: Container(
         width: 60,
         height: 60,

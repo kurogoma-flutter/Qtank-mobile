@@ -28,6 +28,11 @@ import '../pages/workspace/workspace_list_page.dart';
 final GoRouter router = GoRouter(
   routes: <GoRoute>[
     GoRoute(
+      path: '/error',
+      builder: (BuildContext context, GoRouterState state) =>
+          const SimpleErrorPage(),
+    ),
+    GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) => const AuthGate(),
     ),

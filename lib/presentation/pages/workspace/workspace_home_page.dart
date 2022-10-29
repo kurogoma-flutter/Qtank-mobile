@@ -145,7 +145,6 @@ class QTankWorkSpaceHomePage extends ConsumerWidget {
                         ),
                       ),
                       onTap: () {
-                        logger.i('ジャンルを管理');
                         context.push('/genre/list/$workspaceId');
                       },
                     ),

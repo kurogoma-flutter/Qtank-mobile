@@ -31,6 +31,9 @@ class WorkspacePageViewModel extends ChangeNotifier {
   bool isConnecting = true;
   String selectedWorkspaceId = '';
   XFile? selectedImageFile;
+  Map<String, List<String>> noticeList = {
+    'workspaceId': [],
+  };
 
   /// 各メソッド用の変数
   final ImagePicker _picker = ImagePicker();
@@ -101,6 +104,17 @@ class WorkspacePageViewModel extends ChangeNotifier {
     selectedImageFile = await _picker.pickImage(source: ImageSource.gallery);
     notifyListeners();
   }
+
+  /// noticeListに通知があるかどうかを確認する
+  bool hasNotice(String workSpaceId) {
+    if (noticeList.containsKey(workSpaceId)) {
+      if (noticeList[workSpaceId]!.isNotEmpty) {
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
 }
 
 /// FutureProvider用
@@ -120,6 +134,7 @@ Future<QuerySnapshot<Map<String, dynamic>>> fetchWorkspaceList(
       .get();
 }
 
+/// ワークスペース一覧表示用
 final workspaceListFutureProvider = FutureProvider.autoDispose(
   (ref) async {
     final joinedWorkspaces = await fetchJoinedWorkSpaceList();
@@ -127,6 +142,7 @@ final workspaceListFutureProvider = FutureProvider.autoDispose(
   },
 );
 
+/// ワークスペース単体表示用
 final workspaceFutureProvider = FutureProvider.autoDispose
     .family<WorkspaceModel, String>((ref, workspaceId) async {
   final snapshot = await FirebaseFirestore.instance
@@ -137,6 +153,7 @@ final workspaceFutureProvider = FutureProvider.autoDispose
   return WorkspaceModel.fromMap(snapshot.data()!);
 });
 
+/// ワークスペースジャンル一覧用
 final workspaceGenreFutureProvider = FutureProvider.autoDispose
     .family<List<GenreModel>, String>((ref, workspaceId) async {
   final snapshot = await FirebaseFirestore.instance
@@ -150,6 +167,7 @@ final workspaceGenreFutureProvider = FutureProvider.autoDispose
   }).toList();
 });
 
+/// ワークスペースルーム一覧用
 final workspaceRoomFutureProvider = FutureProvider.autoDispose
     .family<List<RoomModel>, List<String>>((ref, info) async {
   final workspaceId = info[0];
@@ -166,6 +184,7 @@ final workspaceRoomFutureProvider = FutureProvider.autoDispose
   }).toList();
 });
 
+/// ワークスペースコンテンツ一覧用
 final workspaceContentFutureProvider = FutureProvider.autoDispose
     .family<List<ContentModel>, List<String>>((ref, info) async {
   final workspaceId = info[0];
@@ -182,6 +201,7 @@ final workspaceContentFutureProvider = FutureProvider.autoDispose
   }).toList();
 });
 
+/// ワークスペース画像取得用
 final fetchWorkSpaceImageFromId =
     FutureProvider.autoDispose.family<String, String>((ref, workspaceId) async {
   final snapshot = await FirebaseFirestore.instance
