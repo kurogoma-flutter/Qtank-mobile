@@ -45,7 +45,7 @@ class CloudFirestoreService {
   ///
   /// [path] : ドキュメントのパス
   ///
-  /// [data] : 保存するデータモデルs
+  /// [data] : 保存するデータモデル
   Future<void> updateData({
     required String path,
     required Map<String, dynamic> data,
@@ -54,11 +54,13 @@ class CloudFirestoreService {
     await reference.update(data);
   }
 
+  /// Firestoreからドキュメントを削除する
   Future<void> deleteData({required String path}) async {
     final reference = _firebaseFirestore.doc(path);
     await reference.delete();
   }
 
+  /// Firestoreからドキュメント一覧を取得する
   Future<List<T>> collectionFuture<T>({
     required String path,
     required T Function(Map<String, dynamic> data, String documentID) builder,
@@ -78,10 +80,23 @@ class CloudFirestoreService {
         .toList();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> fetchDocumentSnapshot({
+  /// Firestoreからドキュメント一覧をストリームで取得する
+  Future<List<T>> collectionStream<T>({
     required String path,
-  }) {
-    final reference = _firebaseFirestore.doc(path);
-    return reference.get();
+    required T Function(Map<String, dynamic> data, String documentID) builder,
+    Query<Map<String, dynamic>> Function(Query<Map<String, dynamic>> query)?
+        queryBuilder,
+  }) async {
+    Query<Map<String, dynamic>> query = _firebaseFirestore.collection(path);
+    if (queryBuilder != null) {
+      query = queryBuilder(query);
+    }
+    final querySnapshot = await query.get();
+    return querySnapshot.docs
+        .map(
+          (snapshot) => builder(snapshot.data(), snapshot.id),
+        )
+        .where((value) => value != null)
+        .toList();
   }
 }
