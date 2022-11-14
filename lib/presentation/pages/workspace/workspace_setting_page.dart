@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qtank_mobile/constants/const_data.dart';
 import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
@@ -115,22 +116,23 @@ class _WorkSpaceIcon extends ConsumerWidget {
             height: 80,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
+              // TODO(Kurogoma): Assertion解決したい, https://github.com/flutter/flutter/issues/105751
               child: provider.selectedImageFile != null
                   ? Image.network(
                       provider.selectedImageFile!.path,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return Image.asset('assets/tank-solo.png',
-                            fit: BoxFit.cover);
+                        return Image.asset(
+                          'assets/tank-solo.png',
+                          fit: BoxFit.cover,
+                        );
                       },
                     )
                   : Image.network(
-                      workSpaceImageUrl,
+                      workSpaceImageUrl != ''
+                          ? workSpaceImageUrl
+                          : defaultImage,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset('assets/tank-solo.png',
-                            fit: BoxFit.cover);
-                      },
                     ),
             ),
           ),
