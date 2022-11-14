@@ -203,6 +203,14 @@ class _QTankListItemInfo extends StatelessWidget {
   final String workspaceName;
   final String workspaceUrl;
 
+  // 文字を指定文字数で区切り、それ以降は「...」にする
+  String clipText(String workspaceName, int length) {
+    if (workspaceName.length > length) {
+      return '${workspaceName.substring(0, length)}...';
+    }
+    return workspaceName;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -210,8 +218,8 @@ class _QTankListItemInfo extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(workspaceName, style: QTankTextStyle.miniTitle),
-          Text(workspaceUrl, style: QTankTextStyle.subtitle),
+          Text(clipText(workspaceName, 25), style: QTankTextStyle.miniTitle),
+          Text(clipText(workspaceUrl, 30), style: QTankTextStyle.subtitle),
         ],
       ),
     );

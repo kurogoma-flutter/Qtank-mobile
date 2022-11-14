@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qtank_mobile/constants/const_data.dart';
+import 'package:qtank_mobile/data/model/workspace_model.dart';
 import 'package:qtank_mobile/data/view_model/workspace_page_view_model.dart';
 import 'package:qtank_mobile/presentation/style/color.dart';
 import 'package:qtank_mobile/presentation/style/style.dart';
 
-import '../../../data/utility/logger/logger.dart';
 import '../common_components/dialog.dart';
 
 class WorkSpaceSettingPage extends StatelessWidget {
@@ -74,7 +74,7 @@ class _WorkSpaceContentBody extends ConsumerWidget {
               workSpaceCompanyUrl: workspace.companyUrl ?? '',
             ),
             _WorkSpaceSubmitButton(
-              workSpaceId: workspace.workspaceId,
+              workspace: workspace,
             )
           ],
         );
@@ -118,15 +118,9 @@ class _WorkSpaceIcon extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
               // TODO(Kurogoma): Assertion解決したい, https://github.com/flutter/flutter/issues/105751
               child: provider.selectedImageFile != null
-                  ? Image.network(
+                  ? Image.asset(
                       provider.selectedImageFile!.path,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          'assets/tank-solo.png',
-                          fit: BoxFit.cover,
-                        );
-                      },
                     )
                   : Image.network(
                       workSpaceImageUrl != ''
@@ -152,7 +146,7 @@ class _WorkSpaceIcon extends ConsumerWidget {
   }
 }
 
-class _WorkSpaceName extends StatelessWidget {
+class _WorkSpaceName extends ConsumerWidget {
   const _WorkSpaceName({
     Key? key,
     required this.workSpaceName,
@@ -161,7 +155,8 @@ class _WorkSpaceName extends StatelessWidget {
   final String workSpaceName;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(workspacePageViewModelProvider);
     return Column(
       children: [
         const Text(
@@ -175,7 +170,7 @@ class _WorkSpaceName extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: TextFormField(
-            onChanged: (value) => logger.i(value),
+            onChanged: (value) => provider.inputWorkspaceName(value),
             initialValue: workSpaceName,
             cursorColor: QTankColor.white,
             style: const TextStyle(
@@ -197,14 +192,15 @@ class _WorkSpaceName extends StatelessWidget {
   }
 }
 
-class _WorkSpaceCompanyUrl extends StatelessWidget {
+class _WorkSpaceCompanyUrl extends ConsumerWidget {
   const _WorkSpaceCompanyUrl({
     Key? key,
     required this.workSpaceCompanyUrl,
   }) : super(key: key);
   final String workSpaceCompanyUrl;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(workspacePageViewModelProvider);
     return Column(
       children: [
         const Text(
@@ -218,7 +214,7 @@ class _WorkSpaceCompanyUrl extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 60),
           child: TextFormField(
-            onChanged: (value) => logger.i(value),
+            onChanged: (value) => provider.inputWorkspaceUrl(value),
             initialValue: workSpaceCompanyUrl,
             cursorColor: QTankColor.white,
             style: const TextStyle(
@@ -243,9 +239,9 @@ class _WorkSpaceCompanyUrl extends StatelessWidget {
 class _WorkSpaceSubmitButton extends ConsumerWidget {
   const _WorkSpaceSubmitButton({
     Key? key,
-    required this.workSpaceId,
+    required this.workspace,
   }) : super(key: key);
-  final String workSpaceId;
+  final WorkspaceModel workspace;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final viewModel = ref.watch(workspacePageViewModelProvider);
@@ -261,7 +257,7 @@ class _WorkSpaceSubmitButton extends ConsumerWidget {
         );
 
         if (dialogResult != null && dialogResult) {
-          logger.d('更新処理');
+          await viewModel.updateWorkspaceInfo(workspace);
 
           // ignore: use_build_context_synchronously
           context.go('/');

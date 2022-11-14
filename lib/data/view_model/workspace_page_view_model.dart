@@ -33,6 +33,8 @@ class WorkspacePageViewModel extends ChangeNotifier {
   Map<String, List<String>> noticeList = {
     'workspaceId': [],
   };
+  String editWorkspaceName = '';
+  String editWorkspaceUrl = '';
 
   /// 各メソッド用の変数
   final ImagePicker _picker = ImagePicker();
@@ -113,6 +115,36 @@ class WorkspacePageViewModel extends ChangeNotifier {
       return false;
     }
     return false;
+  }
+
+  /// ワークスペース名の入力
+  void inputWorkspaceName(String name) {
+    editWorkspaceName = name;
+  }
+
+  /// ワークスペースURLの入力
+  void inputWorkspaceUrl(String url) {
+    editWorkspaceUrl = url;
+  }
+
+  /// ワークスペース情報の更新
+  Future<void> updateWorkspaceInfo(
+    WorkspaceModel workspaceModel,
+  ) async {
+    try {
+      // 1. ワークスペースの値をセット
+      workspaceModel.imageUrl =
+          selectedImageFile != null ? selectedImageFile!.path : null;
+      workspaceModel.name = editWorkspaceName;
+      workspaceModel.companyUrl = editWorkspaceUrl;
+      // 2. ワークスペースをFirestoreに保存
+      await FirebaseFirestore.instance
+          .collection('workspaces')
+          .doc(workspaceModel.workspaceId)
+          .set(workspaceModel.toMap());
+    } on FirebaseException catch (e) {
+      logger.w(e);
+    }
   }
 }
 
