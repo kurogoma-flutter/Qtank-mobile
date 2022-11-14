@@ -1,5 +1,4 @@
 // 🐦 Flutter imports:
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -118,7 +117,6 @@ class WorkspacePageViewModel extends ChangeNotifier {
 }
 
 /// FutureProvider用
-
 Future<List<dynamic>> fetchJoinedWorkSpaceList() async {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   final snapshot =

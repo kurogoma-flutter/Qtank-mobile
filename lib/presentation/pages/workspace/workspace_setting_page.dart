@@ -115,13 +115,23 @@ class _WorkSpaceIcon extends ConsumerWidget {
             height: 80,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                workSpaceImageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/tank-solo.png', fit: BoxFit.cover);
-                },
-              ),
+              child: provider.selectedImageFile != null
+                  ? Image.network(
+                      provider.selectedImageFile!.path,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset('assets/tank-solo.png',
+                            fit: BoxFit.cover);
+                      },
+                    )
+                  : Image.network(
+                      workSpaceImageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset('assets/tank-solo.png',
+                            fit: BoxFit.cover);
+                      },
+                    ),
             ),
           ),
         ),
@@ -228,14 +238,15 @@ class _WorkSpaceCompanyUrl extends StatelessWidget {
   }
 }
 
-class _WorkSpaceSubmitButton extends StatelessWidget {
+class _WorkSpaceSubmitButton extends ConsumerWidget {
   const _WorkSpaceSubmitButton({
     Key? key,
     required this.workSpaceId,
   }) : super(key: key);
   final String workSpaceId;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final viewModel = ref.watch(workspacePageViewModelProvider);
     return ElevatedButton(
       onPressed: () async {
         var dialogResult = await showDialog<bool>(
@@ -249,6 +260,7 @@ class _WorkSpaceSubmitButton extends StatelessWidget {
 
         if (dialogResult != null && dialogResult) {
           logger.d('更新処理');
+
           // ignore: use_build_context_synchronously
           context.go('/');
         }
